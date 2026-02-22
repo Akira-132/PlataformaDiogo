@@ -2,11 +2,15 @@ package com.example.servlet.ServletBoletim;
 
 import com.example.dao.BoletimDAO;
 import com.example.models.Boletim;
+import com.example.models.Usuario;
+import com.example.models.Aluno;
+import com.example.dao.AlunoDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,14 +23,32 @@ public class ReadBoletim extends HttpServlet {
             throws ServletException, IOException {
 
         BoletimDAO boletimDAO = new BoletimDAO();
+        int idAlunoParaBuscar = -1;
 
         try {
-            List<Boletim> listaBoletim = boletimDAO.read();
-            request.setAttribute("listaBoletim", listaBoletim);
+            String idStr = request.getParameter("id");
+            HttpSession session = request.getSession(false);
+
+            if (idStr != null && !idStr.trim().isEmpty()) {
+                idAlunoParaBuscar = Integer.parseInt(idStr);
+            }
+            else if (session != null && session.getAttribute("usuarioLogado") != null) {
+                Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+                Aluno aluno = new AlunoDAO().readByUsuarioId(usuarioLogado.getId());
+
+                idAlunoParaBuscar = (aluno != null) ? aluno.getId() : -1;
+            }
+
+            if (idAlunoParaBuscar != -1) {
+                List<Boletim> listaBoletim = boletimDAO.readByAlunoId(idAlunoParaBuscar);
+                request.setAttribute("listaBoletim", listaBoletim);
+            } else {
+                request.setAttribute("erro", "Não foi possível identificar o aluno para carregar o boletim.");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("erro", "Erro ao carregar o boletim.");
+            request.setAttribute("erro", "Erro inesperado ao carregar o boletim.");
         }
 
         request.getRequestDispatcher("/WEB-INF/pages/boletim.jsp").forward(request, response);
