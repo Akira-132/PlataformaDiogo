@@ -30,6 +30,7 @@ public class CreateProfessor extends HttpServlet {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         ProfessorDAO professorDAO = new ProfessorDAO();
         String erro = null;
+        Usuario usuarioCriado = null;
 
         try {
             Usuario novoUsuario = new Usuario(nome, sobrenome, email, senha);
@@ -38,15 +39,14 @@ public class CreateProfessor extends HttpServlet {
                 throw new SQLException("Falha ao criar o usuário base.");
             }
 
-            Usuario usuarioBanco = usuarioDAO.readByEmail(email);
-            if (usuarioBanco == null) {
+            usuarioCriado = usuarioDAO.readByEmail(email);
+            if (usuarioCriado == null) {
                 throw new SQLException("Erro crítico: Usuário criado, mas ID não encontrado.");
             }
 
-            Professor novoProfessor = new Professor(usuarioBanco.getId());
+            Professor novoProfessor = new Professor(usuarioCriado.getId());
 
             if (!professorDAO.create(novoProfessor)) {
-                usuarioDAO.deleteById(usuarioBanco.getId());
                 throw new SQLException("Erro ao criar perfil de professor.");
             }
 
@@ -57,6 +57,15 @@ public class CreateProfessor extends HttpServlet {
             erro = "Validação: " + e.getMessage();
         } catch (SQLException e) {
             e.printStackTrace();
+
+            if (usuarioCriado != null) {
+                try {
+                    usuarioDAO.deleteById(usuarioCriado.getId());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
             if (e.getMessage().contains("Duplicate") || e.getMessage().contains("UNIQUE")) {
                 erro = "Este e-mail já está em uso.";
             } else {

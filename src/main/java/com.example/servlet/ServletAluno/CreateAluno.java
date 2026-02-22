@@ -32,6 +32,7 @@ public class CreateAluno extends HttpServlet {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         AlunoDAO alunoDAO = new AlunoDAO();
         String erro = null;
+        Usuario usuarioCriado = null;
 
         try {
             Usuario novoUsuario = new Usuario(nome, sobrenome, email, senha);
@@ -40,15 +41,14 @@ public class CreateAluno extends HttpServlet {
                 throw new SQLException("Falha ao criar o usuário base.");
             }
 
-            Usuario usuarioBanco = usuarioDAO.readByEmail(email);
-            if (usuarioBanco == null) {
+            usuarioCriado = usuarioDAO.readByEmail(email);
+            if (usuarioCriado == null) {
                 throw new SQLException("Erro crítico: Usuário criado, mas ID não encontrado.");
             }
 
-            Aluno novoAluno = new Aluno(cpf, usuarioBanco.getId());
+            Aluno novoAluno = new Aluno(cpf, usuarioCriado.getId());
 
             if (!alunoDAO.create(novoAluno)) {
-                usuarioDAO.deleteById(usuarioBanco.getId());
                 throw new SQLException("Erro ao criar perfil de aluno.");
             }
 
@@ -59,6 +59,15 @@ public class CreateAluno extends HttpServlet {
             erro = "Validação: " + e.getMessage();
         } catch (SQLException e) {
             e.printStackTrace();
+
+            if (usuarioCriado != null) {
+                try {
+                    usuarioDAO.deleteById(usuarioCriado.getId());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
             if (e.getMessage().contains("Duplicate") || e.getMessage().contains("UNIQUE")) {
                 if (e.getMessage().contains("cpf")) {
                     erro = "Este CPF já está cadastrado.";

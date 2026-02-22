@@ -37,9 +37,9 @@ public class AuthFilter implements Filter {
 
         if (uri.endsWith("matricula.jsp") || uri.endsWith("/ativar-matricula")) {
             if (session != null && session.getAttribute("alunoAtivacao") != null) {
-                chain.doFilter(request, response); // CPF validado, pode passar!
+                chain.doFilter(request, response);
             } else {
-                res.sendRedirect(req.getContextPath() + "/verificacao-aluno.jsp"); // Chuta de volta
+                res.sendRedirect(req.getContextPath() + "/verificacao-aluno.jsp");
             }
             return;
         }

@@ -36,6 +36,9 @@ public class CreateNota extends HttpServlet {
         try {
             int semestre = Integer.parseInt(semestreStr);
             int ano = Integer.parseInt(anoStr);
+            if (notaValorStr == null || notaValorStr.trim().isEmpty()) {
+                throw new IllegalArgumentException("O campo nota não pode estar vazio.");
+            }
             double valor = Double.parseDouble(notaValorStr.replace(",", "."));
             int fkAlunoId = Integer.parseInt(idAlunoStr);
             int fkDisciplinaId = Integer.parseInt(idDisciplinaStr);
