@@ -56,19 +56,6 @@ button:hover {
 
 }
 
-/* tela menor */
-@media (max-width: 992px) {
-
-  #conteudo {
-    padding: 1.5rem 2.5rem;
-    gap: 2.5rem;
-  }
-
-  textarea {
-    min-height: 22rem;
-  }
-
-}
 
 /* tela menor */
 @media (max-width: 768px) {
