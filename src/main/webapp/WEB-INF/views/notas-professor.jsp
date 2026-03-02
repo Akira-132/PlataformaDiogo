@@ -5,10 +5,10 @@
 <%@ page import="java.util.List" %>
 
 <%
-    Usuario usuarioLogado = (Usuario) request.getAttribute("usuarioLogado");
+    Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
     List<Nota> listaNotas = (List<Nota>) request.getAttribute("listaNotas");
     List<Aluno> listaAlunos = (List<Aluno>) request.getAttribute("listaAlunos");
-    List<Disciplina> listaDisciplinas = (List<Disciplina>) request.getAttribute("listaDisciplina");
+    List<Disciplina> listaDisciplinas = (List<Disciplina>) request.getAttribute("listaDisciplinas");
 
     String modalAtivo = (String) request.getAttribute("modalAtivo");
     Nota notaModal = (Nota) request.getAttribute("notaModal");
