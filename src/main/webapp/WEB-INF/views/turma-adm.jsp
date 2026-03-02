@@ -68,8 +68,9 @@
 
         <h1>TURMA <%= (turmaAtual != null) ? turmaAtual.getSala() : "" %></h1>
 
-        <a href="<%= request.getContextPath() %>/nota-read"><button style="cursor: pointer;">NOTAS</button></a>
-
+        <a href="<%= request.getContextPath() %>/nota-read?idTurma=<%= turmaAtual.getId() %>">
+            <button style="cursor: pointer;">NOTAS</button>
+        </a>
         <div id="alunos-lista">
             <%
                 if (listaAlunos != null && !listaAlunos.isEmpty()) {

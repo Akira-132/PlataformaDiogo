@@ -32,7 +32,7 @@
             <img src="../../assets/imgs/icone-diciplinas.png" alt="" />
             Disciplina
         </a>
-        <a href="#">
+        <a href="<%= request.getContextPath() %>/turma-read?acao=prepararCreate">
             <img src="../../assets/imgs/icone-adicionar.png" alt="" />
             Adicionar
         </a>
@@ -99,11 +99,11 @@
                 <div class="barra <%= corBarra %>"></div>
             </a>
             <%
-                }
-            } else {
+                    }
+                } else {
             %>
             <p>Nenhuma turma encontrada no sistema.</p>
-            <% } %>
+            <%  } %>
         </div>
     </div>
 </main>
