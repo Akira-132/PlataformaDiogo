@@ -11,13 +11,13 @@
 </head>
 <body>
     <header>
-        <img src="../../assets/imgs/Logo.png" alt="LOGO">
+        <img id="logo" src="../../assets/imgs/Logo.png" alt="LOGO">
     </header>
 
     <div id="fundo">
-     
+
         <div id="container">
-            <img src="../../assets/imgs/montro_ponte.png" alt="Criança" id="montro_ponte" width="250px">
+            <img src="../../assets/imgs/montro_ponte.png" alt="Criança" id="montro_ponte">
             <div id="login-box">
                 <h1>Verificação Aluno</h1>
                 <div>
