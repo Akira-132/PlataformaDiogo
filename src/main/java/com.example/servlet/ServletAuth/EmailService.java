@@ -29,7 +29,7 @@ public class EmailService {
             message.setFrom(new InternetAddress(EMAIL_REMETENTE));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
             message.setSubject("Monsters University - Recuperação de Senha");
-            message.setText("Olá!\n\nSeu código de verificação de 5 dígitos é: " + codigo + "\n\nSe você não solicitou isso, ignore este e-mail.");
+            message.setText("RAAAAGH!\n\nEae Monstrão! Seu código de verificação de 5 dígitos é: " + codigo + "\n\nSe você não solicitou isso, ignore este e-mail.");
 
             Transport.send(message);
             return true;

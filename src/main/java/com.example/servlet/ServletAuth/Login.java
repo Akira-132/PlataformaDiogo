@@ -18,6 +18,11 @@ import java.io.IOException;
 public class Login extends HttpServlet {
 
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        request.getRequestDispatcher("/WEB-INF/views/loginAdm.jsp").forward(request, response);
+    }
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -63,6 +68,6 @@ public class Login extends HttpServlet {
             request.setAttribute("erro", "Erro interno ao tentar fazer login.");
         }
 
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/loginAdm.jsp").forward(request, response);
     }
 }

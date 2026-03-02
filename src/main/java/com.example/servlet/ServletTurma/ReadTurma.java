@@ -23,14 +23,18 @@ public class ReadTurma extends HttpServlet {
 
         String acao = request.getParameter("acao");
         String idStr = request.getParameter("id");
+        String idDisciplinaStr = request.getParameter("idDisciplina");
 
         try {
-            List<Turma> lista = turmaDAO.read();
-            request.setAttribute("listaTurmas", lista);
-
-            if ("prepararCreate".equals(acao) || "prepararUpdate".equals(acao)) {
-                request.setAttribute("listaDisciplinas", disciplinaDAO.read());
+            List<Turma> lista;
+            if (idDisciplinaStr != null && !idDisciplinaStr.trim().isEmpty()) {
+                int idDisciplina = Integer.parseInt(idDisciplinaStr);
+                lista = turmaDAO.readByDisciplinaId(idDisciplina);
+            } else {
+                lista = turmaDAO.read();
             }
+            request.setAttribute("listaTurmas", lista);
+            request.setAttribute("listaDisciplinas", disciplinaDAO.read());
 
             if ("prepararCreate".equals(acao)) {
                 request.setAttribute("modalAtivo", "create");
@@ -50,6 +54,13 @@ public class ReadTurma extends HttpServlet {
                 }
             }
 
+        } catch (NumberFormatException e) {
+            request.setAttribute("erro", "ID inválido.");
+            try {
+                request.setAttribute("listaTurmas", turmaDAO.read());
+            } catch (Exception ex) {
+                System.out.println("Erro ao tentar recuperar lista de fallback: " + ex.getMessage());
+            }
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("erro", "Erro inesperado ao carregar dados.");

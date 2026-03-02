@@ -182,6 +182,49 @@ public class TurmaDAO {
         return turma;
     }
 
+    public List<Turma> readByDisciplinaId(int idDisciplina) throws SQLException {
+
+        String sql = "SELECT t.id_turma, t.periodo, t.sala, t.id_disciplina, " +
+                "d.id_disciplina AS d_id_disciplina, d.nome, d.id_professor " +
+                "FROM turma t " +
+                "INNER JOIN disciplina d ON t.id_disciplina = d.id_disciplina " +
+                "WHERE t.id_disciplina = ? " +
+                "ORDER BY t.id_turma ASC";
+
+        Conexao conexao = new Conexao();
+        List<Turma> listaTurma = new LinkedList<>();
+
+        try (Connection conn = conexao.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idDisciplina);
+
+            try (ResultSet rset = pstmt.executeQuery()) {
+
+                while (rset.next()) {
+                    Disciplina disciplina = new Disciplina(
+                            rset.getInt("d_id_disciplina"),
+                            rset.getString("nome"),
+                            rset.getInt("id_professor")
+                    );
+                    Turma turma = new Turma(
+                            rset.getInt("id_turma"),
+                            rset.getString("sala"),
+                            rset.getString("periodo"),
+                            rset.getInt("id_disciplina")
+                    );
+
+                    turma.setDisciplina(disciplina);
+                    turma.setAlunos(findAlunosInTurma(conn, turma.getId()));
+
+                    listaTurma.add(turma);
+                }
+            }
+        }
+
+        return listaTurma;
+    }
+
     public int update(Turma turma) throws SQLException {
 
         String sqlUpdate = "UPDATE turma SET periodo = ?, sala = ?, id_disciplina = ? WHERE id_turma = ?";

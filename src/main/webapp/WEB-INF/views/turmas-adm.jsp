@@ -8,6 +8,7 @@
     Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
     List<Turma> listaTurmas = (List<Turma>) request.getAttribute("listaTurmas");
     List<Disciplina> listaDisciplinas = (List<Disciplina>) request.getAttribute("listaDisciplinas");
+    String erro = (String) request.getAttribute("erro");
 %>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -55,20 +56,34 @@
 <main>
     <header>Minhas disciplinas</header>
     <div id="conteudo">
+
+        <% if (erro != null) { %>
+        <div style="color: #ff4d4d; margin-bottom: 15px; text-align: center;"><%= erro %></div>
+        <% } %>
+
         <div id="filtro-disciplina">
-            <label for="disciplina-select">Selecione a disciplina</label>
-            <select id="disciplina-select">
-                <option value="">Todas as Disciplinas</option>
-                <%
-                    if (listaDisciplinas != null) {
-                        for (Disciplina d : listaDisciplinas) {
-                %>
-                <option value="<%= d.getId() %>"><%= d.getNome() %></option>
-                <%
+            <form action="<%= request.getContextPath() %>/turma-read" method="get" style="display: flex; gap: 10px; align-items: center;">
+                <label for="disciplina-select">Selecione a disciplina</label>
+
+                <select id="disciplina-select" name="idDisciplina" style="padding: 8px; border-radius: 5px;">
+                    <option value="">Todas as Disciplinas</option>
+                    <%
+                        String idSelecionado = request.getParameter("idDisciplina");
+                        if (listaDisciplinas != null) {
+                            for (Disciplina d : listaDisciplinas) {
+                                boolean selecionado = (idSelecionado != null && idSelecionado.equals(String.valueOf(d.getId())));
+                    %>
+                    <option value="<%= d.getId() %>" <%= selecionado ? "selected" : "" %>>
+                        <%= d.getNome() %>
+                    </option>
+                    <%
+                            }
                         }
-                    }
-                %>
-            </select>
+                    %>
+                </select>
+
+                <button type="submit">Filtrar</button>
+            </form>
         </div>
 
         <div id="turmas-lista">
@@ -87,7 +102,7 @@
                 }
             } else {
             %>
-            <p style="color: white; margin-top: 20px;">Nenhuma turma encontrada no sistema.</p>
+            <p>Nenhuma turma encontrada no sistema.</p>
             <% } %>
         </div>
     </div>

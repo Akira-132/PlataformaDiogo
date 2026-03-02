@@ -23,7 +23,7 @@ public class UpdateObservacao extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         String idStr = request.getParameter("id");
-        String texto = request.getParameter("texto");
+        String comentario = request.getParameter("comentario");
         String idProfessorStr = request.getParameter("fkProfessorId");
         String idAlunoStr = request.getParameter("fkAlunoId");
 
@@ -40,7 +40,7 @@ public class UpdateObservacao extends HttpServlet {
             Observacao observacao = observacaoDAO.readById(id);
             if (observacao == null) throw new Exception("Observação não encontrada.");
 
-            observacao.setTexto(texto);
+            observacao.setComentario(comentario);
             observacao.setFkProfessorId(fkProfessorId);
             observacao.setFkAlunoId(fkAlunoId);
             observacao.setDataEnvio(LocalDateTime.now());

@@ -10,6 +10,7 @@
     Turma turmaAtual = (Turma) request.getAttribute("turmaAtual");
     List<TurmaAluno> listaAlunos = (List<TurmaAluno>) request.getAttribute("listaAlunos");
     List<Aluno> listaTodosAlunos = (List<Aluno>) request.getAttribute("listaTodosAlunos");
+    String erro = (String) request.getAttribute("erro");
 %>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -36,7 +37,7 @@
             <img src="../../assets/imgs/icone-diciplinas.png" alt="" />
             Disciplina
         </a>
-        <label for="modal-input" style="cursor: pointer; display: flex; align-items: center; gap: 10px; color: white; padding: 10px; text-decoration: none;">
+        <label for="modal-input">
             <img src="../../assets/imgs/icone-adicionar.png" alt="" />
             Adicionar
         </label>
@@ -61,22 +62,26 @@
     <header>Minha disciplina</header>
     <div id="conteudo">
 
+        <% if (erro != null) { %>
+            <div style="color: #ff4d4d; text-align: center;"><%= erro %></div>
+        <% } %>
+
         <h1>TURMA <%= (turmaAtual != null) ? turmaAtual.getSala() : "" %></h1>
 
-        <a href="notasAdm.jsp"><button>NOTAS</button></a>
+        <a href="<%= request.getContextPath() %>/nota-read"><button style="cursor: pointer;">NOTAS</button></a>
 
         <div id="alunos-lista">
             <%
                 if (listaAlunos != null && !listaAlunos.isEmpty()) {
                     for (TurmaAluno ta : listaAlunos) {
             %>
-            <div class="aluno-card" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="aluno-card">
 
-                <a href="<%= request.getContextPath() %>/aluno-read?id=<%= ta.getAluno().getId() %>" style="color: inherit; text-decoration: none; flex-grow: 1;">
+                <a href="<%= request.getContextPath() %>/aluno-read?id=<%= ta.getAluno().getId() %>">
                     <%= ta.getAluno().getUsuario().getNome() %> <%= ta.getAluno().getUsuario().getSobrenome() %>
                 </a>
 
-                <form action="<%= request.getContextPath() %>/turma-aluno-delete" method="post" style="margin: 0;">
+                <form action="<%= request.getContextPath() %>/turma-aluno-delete" method="post">
                     <input type="hidden" name="idTurmaAluno" value="<%= ta.getId() %>" />
                     <input type="hidden" name="idTurma" value="<%= turmaAtual.getId() %>" />
                     <input type="image" src="../../assets/imgs/icone-lixeira.png" alt="Remover" class="icone-lixeira" onclick="return confirm('Deseja realmente remover o aluno desta turma?');" />
@@ -87,8 +92,8 @@
                 }
             } else {
             %>
-            <p style="text-align: center; color: white; margin-top: 20px;">Nenhum aluno matriculado nesta turma.</p>
-            <% } %>
+            <p style="text-align: center;">Nenhum aluno matriculado nesta turma.</p>
+            <%  } %>
         </div>
 
     </div>
@@ -105,9 +110,9 @@
             <div class="modal-campos">
                 <div class="modal-campo full">
                     <label for="fkAlunoId">Selecione o Aluno</label>
-                    <div class="input-content" style="border: none;">
-                        <select name="fkAlunoId" id="fkAlunoId" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-                            <option value="">-- Escolha um aluno --</option>
+                    <div class="input-content">
+                        <select name="fkAlunoId" id="fkAlunoId" required>
+                            <option value="">Escolha um aluno</option>
                             <%
                                 if (listaTodosAlunos != null) {
                                     for (Aluno a : listaTodosAlunos) {
@@ -122,7 +127,7 @@
                 </div>
             </div>
 
-            <div class="modal-botoes" style="margin-top: 20px;">
+            <div class="modal-botoes">
                 <label for="modal-input" id="btn-cancelar" style="cursor: pointer;">Cancelar</label>
                 <button type="submit" id="btn-adicionar">Matricular</button>
             </div>
