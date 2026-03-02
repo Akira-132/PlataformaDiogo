@@ -1,3 +1,4 @@
+/*com responsividade*/
 #conteudo {
     overflow-y: auto;
     padding: 2rem 2.5rem;
@@ -77,3 +78,55 @@
   .nota.baixa {
     color: red;
   }
+
+
+/* tela media */
+@media (max-width: 768px) {
+
+  #conteudo {
+    padding: 1rem;
+    gap: 2rem;
+  }
+
+  h1 span {
+    font-size: 1.7rem;
+    text-align: center;
+  }
+
+  /* Permite rolagem horizontal na tabela */
+  #view-notas {
+    overflow-x: auto;
+  }
+
+  #view-notas table {
+    min-width: 600px;
+  }
+
+  #view-notas thead th,
+  #view-notas tbody td {
+    padding: 0.7rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .nota {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
+/* tela pequena */
+@media (max-width: 480px) {
+
+  h1 span {
+    font-size: 1.4rem;
+  }
+
+  #view-notas thead th,
+  #view-notas tbody td {
+    font-size: 0.8rem;
+  }
+
+  .nota {
+    font-size: 0.8rem;
+  }
+}

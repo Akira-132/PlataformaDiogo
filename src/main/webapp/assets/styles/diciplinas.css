@@ -1,20 +1,21 @@
+/*Com responsividade*/
+
 #conteudo {
-    flex: 1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    padding: 2rem;
-    align-content: center;
-  }
-  
-a {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    text-decoration: none;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  padding: 2rem;
+  align-content: center;
 }
 
-/* ── CARDS ── */
+a {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  text-decoration: none;
+}
+
 .card {
   background: #fff;
   border-radius: 1rem;
@@ -48,6 +49,7 @@ a {
 .verde::after {
   background: #c5e320;
 }
+
 .roxo::after {
   background: #7c4dff;
 }
@@ -56,4 +58,34 @@ a {
   font-size: 1.6rem;
   font-weight: 400;
   color: #1a1a2e;
+}
+
+/* tela média */
+@media (max-width: 1024px) {
+
+  #conteudo {
+    gap: 2rem;
+    padding: 1.5rem;
+  }
+
+  .card {
+    gap: 2rem;
+  }
+
+}
+
+
+/* tela menor */
+@media (max-width: 768px) {
+
+  #conteudo {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+    justify-items: center;
+  }
+
+  .card {
+    width: 100%;
+  }
+
 }

@@ -1,3 +1,4 @@
+/*Com responsividade*/
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 * {
   margin: 0;
@@ -116,4 +117,65 @@ header {
   font-weight: 800;
   color: white;
   border-bottom: 0.1rem solid #e0e4ef;
+}
+
+/* Tela média */
+@media (max-width: 1024px) {
+
+  aside {
+    width: 11rem;
+  }
+
+  aside nav a {
+    font-size: 1rem;
+    padding: 0.5rem 0.7rem;
+  }
+
+  #logo {
+    margin-bottom: 5rem;
+  }
+
+}
+
+
+/* Tela menor */
+@media (max-width: 768px) {
+
+  body {
+    flex-direction: column;
+    height: auto;
+  }
+
+  aside {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+
+  #logo {
+    margin-bottom: 0;
+  }
+
+  aside nav {
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0;
+  }
+
+  aside nav a {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  #info-usuario {
+    margin-top: 0;
+    margin-right: 0;
+  }
+
+  main {
+    width: 100%;
+  }
+
 }
