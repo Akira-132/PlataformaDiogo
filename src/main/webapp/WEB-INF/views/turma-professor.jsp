@@ -38,7 +38,8 @@
             <img src="../../assets/imgs/icone-usuario.png" alt="" />
         </div>
         <span>
-            <strong><%= (usuarioLogado != null) ? usuarioLogado.getNome() + " " + usuarioLogado.getSobrenome() : "Professor" %></strong>
+            <strong><%= (usuarioLogado != null) ? usuarioLogado.getNome() + " "
+                    + usuarioLogado.getSobrenome() : "Professor" %></strong>
             Minha Disciplina
         </span>
     </div>

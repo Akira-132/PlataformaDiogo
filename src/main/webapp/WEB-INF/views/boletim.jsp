@@ -41,7 +41,8 @@
         <img src="../../assets/imgs/icone-usuario.png" alt="" />
       </div>
       <span>
-        <strong><%= (usuarioLogado != null) ? usuarioLogado.getNome() + " " + usuarioLogado.getSobrenome() : "Aluno" %></strong>
+        <strong><%= (usuarioLogado != null) ? usuarioLogado.getNome() + " "
+                + usuarioLogado.getSobrenome() : "Aluno" %></strong>
         Meu Boletim
       </span>
     </div>
@@ -78,9 +79,21 @@
             <td><%= b.getDisciplina() %></td>
             <td><%= b.getSemestre() %>º Semestre / <%= b.getAno() %></td>
 
-            <td><span class="nota <%= (b.getMediaP1() < 6.0) ? "baixa" : "" %>"><%= String.format("%.1f", b.getMediaP1()) %></span></td>
-            <td><span class="nota <%= (b.getMediaP2() < 6.0) ? "baixa" : "" %>"><%= String.format("%.1f", b.getMediaP2()) %></span></td>
-            <td><span class="nota <%= (b.getMediaFinal() < 6.0) ? "baixa" : "" %>"><%= String.format("%.1f", b.getMediaFinal()) %></span></td>
+            <td>
+                <span class="nota <%= (b.getMediaP1() < 6.0) ? "baixa" : "" %>">
+                    <%= String.format("%.1f", b.getMediaP1()) %>
+                </span>
+            </td>
+            <td>
+                <span class="nota <%= (b.getMediaP2() < 6.0) ? "baixa" : "" %>">
+                    <%= String.format("%.1f", b.getMediaP2()) %>
+                </span>
+            </td>
+            <td>
+                <span class="nota <%= (b.getMediaFinal() < 6.0) ? "baixa" : "" %>">
+                    <%= String.format("%.1f", b.getMediaFinal()) %>
+                </span>
+            </td>
 
             <td><span class="nota <%= "Reprovado".equalsIgnoreCase(b.getSituacao()) ? "baixa" : "" %>"><%= b.getSituacao() %></span></td>
           </tr>

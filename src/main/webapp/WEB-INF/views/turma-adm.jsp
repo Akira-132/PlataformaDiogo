@@ -52,7 +52,8 @@
             <img src="../../assets/imgs/icone-usuario.png" alt="" />
         </div>
         <span>
-                <strong><%= (usuarioLogado != null) ? usuarioLogado.getNome() + " " + usuarioLogado.getSobrenome() : "Admin" %></strong>
+                <strong><%= (usuarioLogado != null) ? usuarioLogado.getNome() + " "
+                        + usuarioLogado.getSobrenome() : "Admin" %></strong>
                 Administração
             </span>
     </div>
@@ -85,7 +86,8 @@
                 <form action="<%= request.getContextPath() %>/turma-aluno-delete" method="post">
                     <input type="hidden" name="idTurmaAluno" value="<%= ta.getId() %>" />
                     <input type="hidden" name="idTurma" value="<%= turmaAtual.getId() %>" />
-                    <input type="image" src="../../assets/imgs/icone-lixeira.png" alt="Remover" class="icone-lixeira" onclick="return confirm('Deseja realmente remover o aluno desta turma?');" />
+                    <input type="image" src="../../assets/imgs/icone-lixeira.png" alt="Remover" class="icone-lixeira"
+                           onclick="return confirm('Deseja realmente remover o aluno desta turma?');" />
                 </form>
 
             </div>
@@ -118,7 +120,8 @@
                                 if (listaTodosAlunos != null) {
                                     for (Aluno a : listaTodosAlunos) {
                             %>
-                            <option value="<%= a.getId() %>"><%= a.getUsuario().getNome() %> <%= a.getUsuario().getSobrenome() %></option>
+                            <option value="<%= a.getId() %>"><%= a.getUsuario().getNome() %>
+                                <%= a.getUsuario().getSobrenome() %></option>
                             <%
                                     }
                                 }

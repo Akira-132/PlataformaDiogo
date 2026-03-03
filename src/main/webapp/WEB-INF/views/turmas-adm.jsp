@@ -47,7 +47,8 @@
             <img src="../../assets/imgs/icone-usuario.png" alt="" />
         </div>
         <span>
-                <strong><%= (usuarioLogado != null) ? usuarioLogado.getNome() + " " + usuarioLogado.getSobrenome() : "Admin" %></strong>
+                <strong><%= (usuarioLogado != null) ? usuarioLogado.getNome() + " "
+                        + usuarioLogado.getSobrenome() : "Admin" %></strong>
                 Administração
             </span>
     </div>
@@ -71,7 +72,8 @@
                         String idSelecionado = request.getParameter("idDisciplina");
                         if (listaDisciplinas != null) {
                             for (Disciplina d : listaDisciplinas) {
-                                boolean selecionado = (idSelecionado != null && idSelecionado.equals(String.valueOf(d.getId())));
+                                boolean selecionado = (idSelecionado != null &&
+                                        idSelecionado.equals(String.valueOf(d.getId())));
                     %>
                     <option value="<%= d.getId() %>" <%= selecionado ? "selected" : "" %>>
                         <%= d.getNome() %>

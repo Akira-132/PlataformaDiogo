@@ -1,3 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.example.models.Observacao" %>
+
+<%
+  Observacao observacao = (Observacao) request.getAttribute("observacao");
+%>
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
