@@ -43,7 +43,6 @@ main {
     background: #7c4dff;
   }
   
-  /* TEXTO */
   .card h2 {
     font-size: 1rem;
     font-weight: 500;
@@ -105,7 +104,7 @@ body {
   }
   
   .filtros button {
-    background: #7c4dff;
+    background: #2a3f8b;
     color: white;
     border: none;
     cursor: pointer;
@@ -116,7 +115,6 @@ body {
     opacity: 0.9;
   }
   
-  /* RESPONSIVIDADE */
   
   @media (max-width: 1024px) {
     #dashboard {
