@@ -38,7 +38,7 @@
       </a>
     </nav>
 
-    <div id="info-usuario">
+    <a href="perfilAluno.html" id="info-usuario">
       <div id="avatar">
         <img src="../../assets/imgs/icone-usuario.png" alt="" />
       </div>
@@ -46,7 +46,7 @@
         <strong>Rafael Lopes</strong>
         Turma A
       </span>
-    </div>
+    </a>
   </aside>
 
   <main>

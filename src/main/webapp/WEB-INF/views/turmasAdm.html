@@ -43,6 +43,7 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 <div id="overlay-adicionar-disciplina">
     <div class="modal">
         <h2>Disciplina</h2>
@@ -50,6 +51,60 @@
             <div class="campo">
                 <label for="nome-disciplina">Nome</label>
                 <input type="text" id="nome-disciplina" placeholder="Camuflagem" />
+=======
+    <div id="overlay-excluir">
+        <div class="modal">
+            <h2>Excluir Turma</h2>
+
+            <form>
+                <div class="campo">
+                    <label for="sala-edit"></label>
+                    <input type="text" id="sala-edit" value="Turma A" />
+                </div>
+
+                <div class="campo">
+                    <label for="periodo">período</label>
+                    <select id="periodo">
+                        <option value="">Selecione</option>
+                        <option value="manha">Manhã</option>
+                        <option value="tarde">Tarde</option>
+                        <option value="noite">Noite</option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="confirmacao">Tem certeza que deseja excluir esta turma?</label>
+                </div>
+                <div class="modal-botoes">
+                    <label for="modal-excluir" class="btn-cancelar">Cancelar</label>
+                    <button type="submit" class="btn-confirmar">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <aside>
+        <div id="logo">
+            <img src="../../assets/imgs/Logo.png" alt="" />
+        </div>
+        <nav>
+            <a href="turmasAdm.html" class="ativo">
+                <img src="../../assets/imgs/icone-diciplinas.png" alt="" />
+                Disciplina
+            </a>
+            <a href="adicionar.html">
+                <img src="../../assets/imgs/icone-adicionar.png" alt="" />
+                Adicionar
+            </a>
+            <a href="professores.html">
+                <img src="../../assets/imgs/icone-professores.png" alt=""/>
+                Professores
+            </a>
+        </nav>
+
+        <a href="perfilAdm.html" id="info-usuario">
+            <div id="avatar">
+                <img src="../../assets/imgs/icone-usuario.png" alt="" />
+>>>>>>> develop
             </div>
             <div class="campo">
                 <label for="periodo-disciplina">período</label>
@@ -154,8 +209,13 @@
                 <strong>Akira</strong>
                 Super Administrador
             </span>
+<<<<<<< HEAD
     </div>
 </aside>
+=======
+        </a>
+    </aside>
+>>>>>>> develop
 
 <main>
     <header>Turmas</header>

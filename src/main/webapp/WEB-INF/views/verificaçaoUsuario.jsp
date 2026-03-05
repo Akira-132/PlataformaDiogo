@@ -4,20 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/imgs/Logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/styles/globaLogin.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/styles/verifiçaoUsuario.css">
+    <link rel="shortcut icon" href="../imgs/Logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../styles/globaLogin.css">
+    <link rel="stylesheet" href="../../assets/styles/verificacao.css">
     <title>Monsters University</title>
 </head>
 <body>
     <header>
-        <img src="${pageContext.request.contextPath}/assets/imgs/Logo.png" alt="LOGO">
+        <img src="../../assets/imgs/Logo.png" alt="LOGO">
     </header>
 
     <div id="fundo">
 
         <div id="container">
-            <img src="${pageContext.request.contextPath}/assets/imgs/crianca.png" alt="Criança" id="criança" width="230px">
+            <img src="../../assets/imgs/crianca.png" alt="Criança" id="criança" width="230px">
             <div id="login-box">
                 <h1>Verificação Aluno</h1>
                 <% if (request.getAttribute("erro") != null) { %>
