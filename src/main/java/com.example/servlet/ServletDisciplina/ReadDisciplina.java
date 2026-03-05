@@ -28,6 +28,6 @@ public class ReadDisciplina extends HttpServlet {
             request.setAttribute("erro", "Erro inesperado ao carregar disciplinas.");
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/disciplinas.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/disciplinas.jsp").forward(request, response);
     }
 }

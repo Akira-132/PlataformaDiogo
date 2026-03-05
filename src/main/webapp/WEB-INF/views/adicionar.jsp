@@ -65,8 +65,8 @@
         <% } %>
 
         <div id="toggle">
-            <label for="toggle-tipo" id="label-aluno" onclick="setTipo('aluno')">Aluno</label>
-            <label for="toggle-tipo" id="label-professor" onclick="setTipo('professor')">Professor</label>
+            <label id="label-aluno" style="cursor: pointer;" onclick="setTipo('aluno')">Aluno</label>
+            <label id="label-professor" style="cursor: pointer;" onclick="setTipo('professor')">Professor</label>
         </div>
 
         <form action="${pageContext.request.contextPath}/usuario-create" method="post">
@@ -77,9 +77,6 @@
                 <input type="text" name="nome" placeholder="nome" required>
                 <input type="text" name="cpf" placeholder="cpf" required maxlength="11">
                 <input type="text" name="sobrenome" placeholder="sobrenome" required>
-
-                <input type="text" name="matricula" id="campo-matricula" placeholder="matricula">
-
                 <input type="email" name="email" placeholder="email" required>
                 <input type="password" name="senha" placeholder="senha" required>
             </div>
@@ -93,12 +90,18 @@
     const checkbox = document.getElementById('toggle-tipo');
     const inputHidden = document.getElementById('input-tipo-usuario');
 
-    checkbox.addEventListener('change', function() {
-        if(this.checked) {
+    function setTipo(tipo) {
+        if (tipo === 'professor') {
+            checkbox.checked = true;
             inputHidden.value = 'professor';
         } else {
+            checkbox.checked = false;
             inputHidden.value = 'aluno';
         }
+    }
+
+    checkbox.addEventListener('change', function() {
+        inputHidden.value = this.checked ? 'professor' : 'aluno';
     });
 </script>
 </body>

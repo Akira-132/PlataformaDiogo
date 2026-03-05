@@ -34,7 +34,7 @@
         .overlay-dinamico { display: none; }
 
         .turma-card { cursor: default; }
-        .turma-link { text-decoration: none; color: inherit; flex-grow: 1; display: block; height: 100%; display: flex; align-items: center;}
+        .turma-link { text-decoration: none; color: inherit; flex-grow: 1; height: 100%; display: flex; align-items: center;}
     </style>
 </head>
 
@@ -101,10 +101,10 @@
             <img src="${pageContext.request.contextPath}/assets/imgs/icone-diciplinas.png" alt="" />
             Disciplina
         </a>
-        <label for="modal-adicionar" style="cursor: pointer; display: flex; align-items: center; gap: 15px; padding: 20px 0 20px 30px; font-weight: 500;">
+        <a href="${pageContext.request.contextPath}/adicionar-view">
             <img src="${pageContext.request.contextPath}/assets/imgs/icone-adicionar.png" alt="" />
             Adicionar
-        </label>
+        </a>
         <a href="${pageContext.request.contextPath}/professor-read">
             <img src="${pageContext.request.contextPath}/assets/imgs/icone-professores.png" alt=""/>
             Professores
@@ -150,7 +150,7 @@
         </div>
 
         <div>
-            <label for="modal-adicionar-disciplina" class="btn-adicionar-turma" style="margin-right: 10px;">
+            <label for="modal-adicionar-disciplina" id="btn-adicionar-disciplina" style="margin-right: 10px;">
                 + Adicionar Disciplina
             </label>
 

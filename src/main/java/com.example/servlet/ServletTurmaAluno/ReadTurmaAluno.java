@@ -51,7 +51,7 @@ public class ReadTurmaAluno extends HttpServlet {
 
                 request.setAttribute("listaTodosAlunos", alunoDAO.read());
             } else {
-                response.sendRedirect("turma-read");
+                response.sendRedirect("/turma-read");
                 return;
             }
 
@@ -69,9 +69,9 @@ public class ReadTurmaAluno extends HttpServlet {
         } catch (Exception e) { e.printStackTrace(); }
 
         if (isProfessor) {
-            request.getRequestDispatcher("/WEB-INF/pages/turma-professor.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/turma-professor.jsp").forward(request, response);
         } else {
-            request.getRequestDispatcher("/WEB-INF/pages/turma-adm.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/turma-adm.jsp").forward(request, response);
         }
     }
 }

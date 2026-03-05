@@ -26,7 +26,7 @@
     <img src="${pageContext.request.contextPath}/assets/imgs/Logo.png" alt="" />
   </div>
   <nav>
-    <a href="<%= request.getContextPath() %>/disciplinas-read">
+    <a href="<%= request.getContextPath() %>/disciplina-read">
       <img src="${pageContext.request.contextPath}/assets/imgs/icone-diciplinas.png" alt="" />
       Disciplinas
     </a>

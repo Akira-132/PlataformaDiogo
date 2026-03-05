@@ -65,7 +65,7 @@
           String corCard = (count % 2 == 0) ? "verde" : "roxo";
           count++;
     %>
-    <a href="#">
+    <a href="${pageContext.request.contextPath}/WEB-INF/views/disciplina-detalhe.jsp">
       <div id="disciplina-<%= d.getId() %>" class="card <%= corCard %>">
         <img src="${pageContext.request.contextPath}/assets/imgs/icone-diciplinas.png" alt="" />
         <span><%= d.getNome() %></span>

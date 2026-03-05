@@ -55,6 +55,6 @@ public class DeleteTurma extends HttpServlet {
             }
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/turmas-adm.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/turmas-adm.jsp").forward(request, response);
     }
 }

@@ -26,7 +26,7 @@ public class ReadAluno extends HttpServlet {
 
                 if (alunoSelecionado != null) {
                     request.setAttribute("alunoAtual", alunoSelecionado);
-                    request.getRequestDispatcher("/aluno-perfil.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/views/observacao-professor.jsp").forward(request, response);
                     return;
                 } else {
                     request.setAttribute("erro", "Aluno não encontrado.");

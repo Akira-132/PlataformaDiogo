@@ -48,6 +48,6 @@ public class ReadUsuario extends HttpServlet {
             request.setAttribute("erro", "Erro inesperado ao carregar usuários.");
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/usuarios.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/usuarios.jsp").forward(request, response);
     }
 }

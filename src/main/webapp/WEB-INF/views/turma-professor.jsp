@@ -11,6 +11,7 @@
 
     String nomeTurma = (turmaAtual != null) ? turmaAtual.getSala() : "Turma não identificada";
     int idTurma = (turmaAtual != null) ? turmaAtual.getId() : 0;
+    String erro = (String) request.getAttribute("erro");
 %>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -41,10 +42,9 @@
             <img src="${pageContext.request.contextPath}/assets/imgs/icone-usuario.png" alt="" />
         </div>
         <span>
-            <strong><%= (usuarioLogado != null) ? usuarioLogado.getNome() + " "
-                    + usuarioLogado.getSobrenome() : "Professor" %></strong>
-            Minha Disciplina
-        </span>
+                <strong><%= (usuarioLogado != null) ? usuarioLogado.getNome() + " " + usuarioLogado.getSobrenome() : "Professor" %></strong>
+                Minha Disciplina
+            </span>
     </div>
 </aside>
 
@@ -52,11 +52,15 @@
     <header>Minha disciplina</header>
     <div id="conteudo">
 
+        <% if (erro != null) { %>
+        <div style="color: #ff4d4d; text-align: center; margin-bottom: 20px;"><%= erro %></div>
+        <% } %>
+
         <h1>TURMA <%= nomeTurma %></h1>
 
         <% if (turmaAtual != null) { %>
         <a href="${pageContext.request.contextPath}/nota-read?idTurma=<%= idTurma %>">
-            <button style="cursor: pointer;">NOTAS</button>
+            <button>NOTAS</button>
         </a>
         <% } %>
 
@@ -76,7 +80,7 @@
             } else {
             %>
             <div style="text-align: center; margin-top: 20px;">
-                <p>Nenhum aluno matriculado nesta turma.</p>
+                <p>Nenhum aluno matriculado nesta turma ainda.</p>
             </div>
             <%  } %>
         </div>
@@ -84,4 +88,5 @@
     </div>
 </main>
 </body>
+
 </html>

@@ -67,12 +67,12 @@ public class ReadNota extends HttpServlet {
         try {
             ProfessorDAO professorDAO = new ProfessorDAO();
             if (usuarioLogado != null && professorDAO.readByUsuarioId(usuarioLogado.getId()) != null) {
-                request.getRequestDispatcher("/notas-professor.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/notas-professor.jsp").forward(request, response);
             } else {
-                request.getRequestDispatcher("/notas-adm.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/notas-adm.jsp").forward(request, response);
             }
         } catch (Exception e) {
-            request.getRequestDispatcher("/notas-adm.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/notas-adm.jsp").forward(request, response);
         }
     }
 }

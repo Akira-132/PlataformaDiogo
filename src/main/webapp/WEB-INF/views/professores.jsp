@@ -32,7 +32,7 @@
                 <img src="${pageContext.request.contextPath}/assets/imgs/icone-diciplinas.png" alt="" />
                 Disciplina
             </a>
-            <a href="${pageContext.request.contextPath}/adicionar.jsp">
+            <a href="${pageContext.request.contextPath}/adicionar-view">
                 <img src="${pageContext.request.contextPath}/assets/imgs/icone-adicionar.png" alt="" />
                 Adicionar
             </a>

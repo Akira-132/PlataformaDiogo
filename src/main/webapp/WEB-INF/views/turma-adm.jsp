@@ -28,6 +28,18 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/styles/modal.css">
 
     <title>Gerenciar Turma - <%= nomeTurma %></title>
+
+    <style>
+        #modal-adicionar-aluno:checked ~ #overlay-adicionar-aluno {
+            display: flex;
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center; align-items: center; z-index: 1000;
+        }
+        #overlay-adicionar-aluno { display: none; }
+        .modal { background: white; padding: 20px; border-radius: 8px; width: 90%; max-width: 500px; }
+    </style>
 </head>
 
 <body>
@@ -42,7 +54,7 @@
 
             <div class="campo">
                 <label for="select-aluno">Selecione o Aluno</label>
-                <select id="select-aluno" name="fkAlunoId" required">
+                <select id="select-aluno" name="fkAlunoId" required>
                     <option value="">Escolha um aluno...</option>
                     <%
                         if (listaTodosAlunos != null) {
@@ -77,11 +89,6 @@
             <img src="${pageContext.request.contextPath}/assets/imgs/icone-diciplinas.png" alt="" />
             Voltar p/ Disciplinas
         </a>
-
-        <label for="modal-adicionar-aluno" style="cursor: pointer; display: flex; align-items: center; gap: 15px; padding: 20px 0 20px 30px; font-weight: 500;">
-            <img src="${pageContext.request.contextPath}/assets/imgs/icone-adicionar.png" alt="" />
-            Matricular Aluno
-        </label>
     </nav>
 
     <div id="info-usuario">
@@ -108,10 +115,15 @@
             <h1>TURMA <%= nomeTurma %></h1>
 
             <a href="${pageContext.request.contextPath}/nota-read?idTurma=<%= idTurmaAtual %>">
-                <button style="cursor: pointer; padding: 10px 20px; color: white; border: none; border-radius: 5px;">
+                <button style="cursor: pointer; padding: 10px 20px; color: black; border: none; border-radius: 5px;">
                     VER NOTAS
                 </button>
             </a>
+
+            <label for="modal-adicionar-aluno" style="cursor: pointer; display: flex; align-items: center; gap: 15px; padding: 20px 0 20px 30px; font-weight: 500;">
+                <img src="${pageContext.request.contextPath}/assets/imgs/icone-adicionar.png" alt="" />
+                Matricular Aluno
+            </label>
         </div>
 
         <div id="alunos-lista">
@@ -152,16 +164,5 @@
 
     </div>
 </main>
-
-<style>
-    #modal-adicionar-aluno:checked + #overlay-adicionar-aluno {
-        display: flex;
-        position: fixed; top: 0; left: 0;
-        justify-content: center; align-items: center; z-index: 1000;
-    }
-    #overlay-adicionar-aluno { display: none; }
-    .modal { background: white; padding: 20px; border-radius: 8px; width: 90%; max-width: 500px; }
-</style>
-
 </body>
 </html>

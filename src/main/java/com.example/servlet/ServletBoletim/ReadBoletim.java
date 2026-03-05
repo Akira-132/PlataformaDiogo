@@ -51,6 +51,6 @@ public class ReadBoletim extends HttpServlet {
             request.setAttribute("erro", "Erro inesperado ao carregar o boletim.");
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/boletim.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/boletim.jsp").forward(request, response);
     }
 }

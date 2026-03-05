@@ -1,3 +1,15 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.example.models.Usuario" %>
+<%@ page import="com.example.models.Disciplina" %>
+<%@ page import="java.util.List" %>
+
+<%
+  Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+  List<Disciplina> listaDisciplinas = (List<Disciplina>) request.getAttribute("listaDisciplinas");
+  Disciplina disciplina = (Disciplina) request.getAttribute("disciplina");
+  String erro = (String) request.getAttribute("erro");
+%>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -16,7 +28,7 @@
       <img src="../../assets/imgs/Logo.png" alt="" />
     </div>
     <nav>
-      <a href="diciplinas.jsp" class="ativo">
+      <a href="disciplinas.jsp" class="ativo">
         <img src="../../assets/imgs/icone-diciplinas.png" alt="" />
         Disciplinas
       </a>

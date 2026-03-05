@@ -41,7 +41,7 @@ public class Turma {
             throw new IllegalArgumentException("O período não pode estar em branco.");
         }
         String p = periodo.toLowerCase();
-        if (!p.equals("manhã") && !p.equals("tarde") && !p.equals("noite")) {
+        if (!p.equals("manha") && !p.equals("manhã") && !p.equals("tarde") && !p.equals("noite")) {
             throw new IllegalArgumentException("Período inválido. Escolha Manhã, Tarde ou Noite.");
         }
         this.periodo = periodo;

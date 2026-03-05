@@ -322,7 +322,7 @@ public class TurmaDAO {
 
     private List<Aluno> findAlunosInTurma(Connection conn, int turmaId) throws SQLException {
         String sql = "SELECT a.id_aluno, a.cpf, a.matricula, a.id_usuario, " +
-                "u.nome, u.sobrenome, u.email, u.senha, u.cargo " +
+                "u.nome, u.sobrenome, u.email, u.senha " +
                 "FROM turma_aluno ta " +
                 "INNER JOIN aluno a ON ta.id_aluno = a.id_aluno " +
                 "INNER JOIN usuario u ON a.id_usuario = u.id_usuario " +
