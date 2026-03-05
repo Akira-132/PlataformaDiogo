@@ -89,6 +89,6 @@ public class CreateAdmin extends HttpServlet {
             request.setAttribute("erro", "Erro crítico: Não foi possível carregar a lista de administradores.");
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/admins.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin-read").forward(request, response);
     }
 }

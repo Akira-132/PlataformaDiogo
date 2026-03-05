@@ -60,6 +60,6 @@ public class CreateTelefone extends HttpServlet {
             request.setAttribute("erro", "Erro crítico: Não foi possível carregar as listas.");
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/telefones.jsp").forward(request, response);
+        request.getRequestDispatcher("/telefone-read").forward(request, response);
     }
 }

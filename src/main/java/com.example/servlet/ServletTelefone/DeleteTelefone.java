@@ -51,6 +51,6 @@ public class DeleteTelefone extends HttpServlet {
             }
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/telefones.jsp").forward(request, response);
+        request.getRequestDispatcher("/telefone-read").forward(request, response);
     }
 }

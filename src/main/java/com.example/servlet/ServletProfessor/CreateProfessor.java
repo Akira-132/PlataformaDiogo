@@ -50,7 +50,8 @@ public class CreateProfessor extends HttpServlet {
                 throw new SQLException("Erro ao criar perfil de professor.");
             }
 
-            response.sendRedirect(request.getContextPath() + "/professor-read");
+            request.setAttribute("sucesso", "Professor " + nome + " cadastrado com sucesso!");
+            request.getRequestDispatcher("/adicionar.jsp").forward(request, response);
             return;
 
         } catch (IllegalArgumentException e) {
@@ -77,18 +78,10 @@ public class CreateProfessor extends HttpServlet {
         }
 
         request.setAttribute("erro", erro);
-        request.setAttribute("modalAtivo", "create");
         request.setAttribute("nome_previo", nome);
         request.setAttribute("sobrenome_previo", sobrenome);
         request.setAttribute("email_previo", email);
 
-        try {
-            request.setAttribute("listaProfessores", professorDAO.read());
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("erro", "Erro crítico: Não foi possível carregar a lista de professores.");
-        }
-
-        request.getRequestDispatcher("/WEB-INF/pages/professores.jsp").forward(request, response);
+        request.getRequestDispatcher("/adicionar.jsp").forward(request, response);
     }
 }

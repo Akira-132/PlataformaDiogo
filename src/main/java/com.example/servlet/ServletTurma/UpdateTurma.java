@@ -37,7 +37,6 @@ public class UpdateTurma extends HttpServlet {
 
             turma.setPeriodo(periodo);
             turma.setSala(sala);
-            // Mantém a disciplina que já estava na turma, já que o modal não a edita.
 
             if (turmaDAO.update(turma) > 0) {
                 response.sendRedirect(request.getContextPath() + "/turma-read");
@@ -73,7 +72,6 @@ public class UpdateTurma extends HttpServlet {
             }
         }
 
-        // CORREÇÃO AQUI: Mandar de volta para o JSP correto (turmas-adm)
         request.getRequestDispatcher("/WEB-INF/pages/turmas-adm.jsp").forward(request, response);
     }
 }

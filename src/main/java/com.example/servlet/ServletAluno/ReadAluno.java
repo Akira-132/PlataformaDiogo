@@ -1,7 +1,6 @@
 package com.example.servlet.ServletAluno;
 
 import java.io.IOException;
-import java.util.List;
 import com.example.models.Aluno;
 import com.example.dao.AlunoDAO;
 import jakarta.servlet.ServletException;
@@ -18,36 +17,28 @@ public class ReadAluno extends HttpServlet {
             throws ServletException, IOException {
 
         AlunoDAO alunoDAO = new AlunoDAO();
-        String acao = request.getParameter("acao");
         String idStr = request.getParameter("id");
 
         try {
-            List<Aluno> lista = alunoDAO.read();
-            request.setAttribute("listaAlunos", lista);
-
-            if ("prepararCreate".equals(acao)) {
-                request.setAttribute("modalAtivo", "create");
-            }
-            else if (idStr != null) {
+            if (idStr != null) {
                 int id = Integer.parseInt(idStr);
                 Aluno alunoSelecionado = alunoDAO.readById(id);
 
                 if (alunoSelecionado != null) {
-                    request.setAttribute("alunoModal", alunoSelecionado);
-
-                    if ("prepararUpdate".equals(acao)) {
-                        request.setAttribute("modalAtivo", "update");
-                    } else if ("prepararDelete".equals(acao)) {
-                        request.setAttribute("modalAtivo", "delete");
-                    }
+                    request.setAttribute("alunoAtual", alunoSelecionado);
+                    request.getRequestDispatcher("/aluno-perfil.jsp").forward(request, response);
+                    return;
+                } else {
+                    request.setAttribute("erro", "Aluno não encontrado.");
                 }
             }
 
+            response.sendRedirect(request.getContextPath() + "/turma-read");
+
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("erro", "Erro inesperado ao carregar dados dos alunos.");
+            request.setAttribute("erro", "Erro inesperado ao carregar dados do aluno.");
+            response.sendRedirect(request.getContextPath() + "/turma-read");
         }
-
-        request.getRequestDispatcher("/WEB-INF/pages/alunos.jsp").forward(request, response);
     }
 }

@@ -18,12 +18,13 @@ public class DeleteObservacao extends HttpServlet {
 
         ObservacaoDAO observacaoDAO = new ObservacaoDAO();
         String erro = null;
+        String idStr = request.getParameter("id");
 
         try {
-            int id = Integer.parseInt(request.getParameter("id"));
+            int id = Integer.parseInt(idStr);
 
             if (observacaoDAO.deleteById(id) > 0) {
-                response.sendRedirect(request.getContextPath() + "/observacao-read");
+                response.sendRedirect(request.getContextPath() + "/turma-read");
                 return;
             } else {
                 erro = "Não foi possível excluir a observação.";
@@ -35,22 +36,6 @@ public class DeleteObservacao extends HttpServlet {
         }
 
         request.setAttribute("erro", erro);
-        request.setAttribute("modalAtivo", "delete");
-
-        try {
-            request.setAttribute("listaObservacoes", observacaoDAO.read());
-
-            String idStr = request.getParameter("id");
-            if (idStr != null) {
-                request.setAttribute("observacaoModal", observacaoDAO.readById(Integer.parseInt(idStr)));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (request.getAttribute("erro") == null) {
-                request.setAttribute("erro", "Erro ao recarregar a lista.");
-            }
-        }
-
-        request.getRequestDispatcher("/WEB-INF/pages/observacoes.jsp").forward(request, response);
+        request.getRequestDispatcher("/observacao-read?id=" + idStr).forward(request, response);
     }
 }

@@ -8,6 +8,7 @@ import com.example.models.Aluno;
 import com.example.models.Usuario;
 import com.example.dao.ObservacaoDAO;
 import com.example.dao.AlunoDAO;
+import com.example.dao.ProfessorDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,11 +28,17 @@ public class ReadObservacao extends HttpServlet {
 
         ObservacaoDAO observacaoDAO = new ObservacaoDAO();
         AlunoDAO alunoDAO = new AlunoDAO();
+        ProfessorDAO professorDAO = new ProfessorDAO();
 
         String idAlunoStr = request.getParameter("idAluno");
         String idObsStr = request.getParameter("id");
 
         try {
+            boolean isProfessor = false;
+            if (usuarioLogado != null && professorDAO.readByUsuarioId(usuarioLogado.getId()) != null) {
+                isProfessor = true;
+            }
+
             if (idObsStr != null) {
                 int idObs = Integer.parseInt(idObsStr);
                 Observacao obs = observacaoDAO.readById(idObs);
@@ -41,10 +48,10 @@ public class ReadObservacao extends HttpServlet {
                     request.setAttribute("alunoAtual", alunoDAO.readById(obs.getFkAlunoId()));
                 }
 
-                if (usuarioLogado != null && "admin".equalsIgnoreCase(usuarioLogado.getCargo())) {
-                    request.getRequestDispatcher("/observacao-detalhe-adm.jsp").forward(request, response);
-                } else {
+                if (isProfessor) {
                     request.getRequestDispatcher("/observacao-detalhe-prof.jsp").forward(request, response);
+                } else {
+                    request.getRequestDispatcher("/observacao-detalhe-adm.jsp").forward(request, response);
                 }
                 return;
 
@@ -65,10 +72,10 @@ public class ReadObservacao extends HttpServlet {
                 request.setAttribute("alunoAtual", aluno);
                 request.setAttribute("listaObservacoes", doAluno);
 
-                if (usuarioLogado != null && "admin".equalsIgnoreCase(usuarioLogado.get())) {
-                    request.getRequestDispatcher("/historico-adm.jsp").forward(request, response);
-                } else {
+                if (isProfessor) {
                     request.getRequestDispatcher("/historico-professor.jsp").forward(request, response);
+                } else {
+                    request.getRequestDispatcher("/historico-adm.jsp").forward(request, response);
                 }
                 return;
             }

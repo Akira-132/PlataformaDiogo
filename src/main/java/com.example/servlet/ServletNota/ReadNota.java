@@ -3,7 +3,10 @@ package com.example.servlet.ServletNota;
 import java.io.IOException;
 import java.util.List;
 import com.example.models.Nota;
+import com.example.models.Professor;
+import com.example.models.Usuario;
 import com.example.dao.NotaDAO;
+import com.example.dao.ProfessorDAO;
 import com.example.dao.AlunoDAO;
 import com.example.dao.DisciplinaDAO;
 import jakarta.servlet.ServletException;
@@ -23,8 +26,11 @@ public class ReadNota extends HttpServlet {
         AlunoDAO alunoDAO = new AlunoDAO();
         DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
 
+        Usuario usuarioLogado = (Usuario) request.getSession().getAttribute("usuarioLogado");
+
         String acao = request.getParameter("acao");
         String idStr = request.getParameter("id");
+        String idTurmaStr = request.getParameter("idTurma");
 
         try {
             List<Nota> lista = notaDAO.read();
@@ -58,6 +64,15 @@ public class ReadNota extends HttpServlet {
             request.setAttribute("erro", "Erro inesperado ao carregar dados.");
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/notas.jsp").forward(request, response);
+        try {
+            ProfessorDAO professorDAO = new ProfessorDAO();
+            if (usuarioLogado != null && professorDAO.readByUsuarioId(usuarioLogado.getId()) != null) {
+                request.getRequestDispatcher("/notas-professor.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("/notas-adm.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            request.getRequestDispatcher("/notas-adm.jsp").forward(request, response);
+        }
     }
 }

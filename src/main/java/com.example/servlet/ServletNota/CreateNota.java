@@ -1,7 +1,5 @@
 package com.example.servlet.ServletNota;
 
-import com.example.dao.AlunoDAO;
-import com.example.dao.DisciplinaDAO;
 import com.example.dao.NotaDAO;
 import com.example.models.Nota;
 import jakarta.servlet.ServletException;
@@ -29,8 +27,6 @@ public class CreateNota extends HttpServlet {
         String idDisciplinaStr = request.getParameter("fkDisciplinaId");
 
         NotaDAO notaDAO = new NotaDAO();
-        AlunoDAO alunoDAO = new AlunoDAO();
-        DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
         String erro = null;
 
         try {
@@ -64,19 +60,7 @@ public class CreateNota extends HttpServlet {
         request.setAttribute("erro", erro);
         request.setAttribute("modalAtivo", "create");
         request.setAttribute("tipo_previo", tipo);
-        request.setAttribute("semestre_previo", semestreStr);
-        request.setAttribute("ano_previo", anoStr);
-        request.setAttribute("nota_previo", notaValorStr);
 
-        try {
-            request.setAttribute("listaNotas", notaDAO.read());
-            request.setAttribute("listaAlunos", alunoDAO.read());
-            request.setAttribute("listaDisciplinas", disciplinaDAO.read());
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("erro", "Erro crítico: Não foi possível carregar as listas.");
-        }
-
-        request.getRequestDispatcher("/WEB-INF/pages/notas.jsp").forward(request, response);
+        request.getRequestDispatcher("/nota-read?acao=prepararCreate").forward(request, response);
     }
 }

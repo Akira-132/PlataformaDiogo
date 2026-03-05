@@ -32,6 +32,11 @@ public class ReadTurmaAluno extends HttpServlet {
         String idTurmaStr = request.getParameter("id");
         if (idTurmaStr == null) idTurmaStr = request.getParameter("idTurma");
 
+        String erroUrl = request.getParameter("erro");
+        if ("falha".equals(erroUrl)) {
+            request.setAttribute("erro", "Não foi possível matricular o aluno. Verifique se ele já pertence a esta turma.");
+        }
+
         TurmaDAO turmaDAO = new TurmaDAO();
         AlunoDAO alunoDAO = new AlunoDAO();
 

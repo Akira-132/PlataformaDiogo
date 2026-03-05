@@ -55,6 +55,6 @@ public class DeleteAdmin extends HttpServlet {
             }
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/admins.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin-read").forward(request, response);
     }
 }

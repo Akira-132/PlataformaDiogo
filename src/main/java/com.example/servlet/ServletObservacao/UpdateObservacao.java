@@ -42,7 +42,7 @@ public class UpdateObservacao extends HttpServlet {
             observacao.setDataEnvio(LocalDateTime.now());
 
             if (observacaoDAO.update(observacao) > 0) {
-                response.sendRedirect(request.getContextPath() + "/observacao-read");
+                response.sendRedirect(request.getContextPath() + "/observacao-read?idAluno=" + fkAlunoId);
                 return;
             } else {
                 erro = "Erro ao atualizar observação no banco.";
@@ -54,6 +54,6 @@ public class UpdateObservacao extends HttpServlet {
         }
 
         request.setAttribute("erro", erro);
-        request.getRequestDispatcher("/WEB-INF/pages/observacoes.jsp").forward(request, response);
+        request.getRequestDispatcher("/observacao-read?id=" + idStr).forward(request, response);
     }
 }
