@@ -74,7 +74,7 @@
 
                 <div id="links_principais">
                     <a href="${pageContext.request.contextPath}/esqueci-senha">Esqueceu a Senha?</a>
-                    <a href="${pageContext.request.contextPath}/ativar-matricula">Não fez a matrícula?</a>
+                    <a href="${pageContext.request.contextPath}/grito">Não fez a matrícula?</a>
                 </div>
 
                 <input type="submit" value="Entrar" id="btn-login">
@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    <img src="assets/imgs/Mical_login.png" alt="Mike" id="mical">
+    <img src="${pageContext.request.contextPath}assets/imgs/Mical_login.png" alt="Mike" id="mical">
 </div>
 </body>
 </html>
