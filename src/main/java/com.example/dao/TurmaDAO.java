@@ -4,6 +4,7 @@ import com.example.controllers.Conexao;
 import com.example.models.Turma;
 import com.example.models.Disciplina;
 import com.example.models.Aluno;
+import com.example.models.Usuario;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -320,21 +321,27 @@ public class TurmaDAO {
     }
 
     private List<Aluno> findAlunosInTurma(Connection conn, int turmaId) throws SQLException {
-
-        String sql = "SELECT a.id_aluno, a.cpf, a.matricula, a.id_usuario " +
+        String sql = "SELECT a.id_aluno, a.cpf, a.matricula, a.id_usuario, " +
+                "u.nome, u.sobrenome, u.email, u.senha, u.cargo " +
                 "FROM turma_aluno ta " +
                 "INNER JOIN aluno a ON ta.id_aluno = a.id_aluno " +
+                "INNER JOIN usuario u ON a.id_usuario = u.id_usuario " +
                 "WHERE ta.id_turma = ?";
 
         List<Aluno> lista = new LinkedList<>();
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
             pstmt.setInt(1, turmaId);
 
             try (ResultSet rset = pstmt.executeQuery()) {
-
                 while (rset.next()) {
+                    Usuario usuario = new Usuario(
+                            rset.getInt("id_usuario"),
+                            rset.getString("nome"),
+                            rset.getString("sobrenome"),
+                            rset.getString("email"),
+                            rset.getString("senha")
+                    );
 
                     Aluno aluno = new Aluno(
                             rset.getInt("id_aluno"),
@@ -343,11 +350,12 @@ public class TurmaDAO {
                             rset.getInt("id_usuario")
                     );
 
+                    aluno.setUsuario(usuario);
+
                     lista.add(aluno);
                 }
             }
         }
-
         return lista;
     }
 

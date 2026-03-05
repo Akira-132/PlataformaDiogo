@@ -13,8 +13,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="shortcut icon" href="../../assets/imgs/Logo.png" type="image/x-icon" />
-  <link rel="stylesheet" href="../../assets/styles/diogo.css" />
   <link rel="stylesheet" href="../../assets/styles/globalApp.css" />    
+  <link rel="stylesheet" href="../../assets/styles/diogo.css" />
   <title>Monsters University</title>
 </head>
 
@@ -24,11 +24,10 @@
       <img src="../../assets/imgs/Logo.png" alt="" />
     </div>
     <nav>
-      <a href="turmas-professores.jsp" class="ativo">
+      <a href="turmas-professor.jsp" class="ativo">
         <img src="../../assets/imgs/icone-diciplinas.png" alt="" />
         Disciplinas
       </a>
-      
     </nav>
 
     <div id="info-usuario">
@@ -43,18 +42,21 @@
   </aside>
 
   <main>
-    <header>Minhas disciplinas</header>
+    <header>Minha disciplina</header>
+    
     <div id="conteudo">
-      <h1 id="aluno-titulo">Diogo Martins Nascimento</h1>
-
-
-
-      <div>
-        <textarea minlength="100">
-        
-        </textarea>
-        <button>confirmar</button>
+      <div id="topo">
+        <h1>Diogo Martins Nascimento</h1>
+        <a href="historico-prof.jsp" id="btn-historico">Ver histórico</a>
       </div>
+
+      <form action="historico-prof.jsp" method="get">
+        <input type="text" name="titulo" placeholder="Título" required>
+        
+        <textarea name="texto" placeholder="Texto sobre o Roberto Dinamite" minlength="100" required></textarea>
+        
+        <button type="submit" id="btn-enviar">Enviar</button>
+      </form>
     </div>
   </main>
 </body>

@@ -61,6 +61,6 @@ public class CreateDisciplina extends HttpServlet {
             request.setAttribute("erro", "Erro crítico: Não foi possível carregar as listas.");
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/disciplinas.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/pages/turma.jsp").forward(request, response);
     }
 }

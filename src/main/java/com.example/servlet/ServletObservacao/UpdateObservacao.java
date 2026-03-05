@@ -1,8 +1,6 @@
 package com.example.servlet.ServletObservacao;
 
-import com.example.dao.AlunoDAO;
 import com.example.dao.ObservacaoDAO;
-import com.example.dao.ProfessorDAO;
 import com.example.models.Observacao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,13 +21,11 @@ public class UpdateObservacao extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         String idStr = request.getParameter("id");
-        String comentario = request.getParameter("comentario");
+        String texto = request.getParameter("texto");
         String idProfessorStr = request.getParameter("fkProfessorId");
         String idAlunoStr = request.getParameter("fkAlunoId");
 
         ObservacaoDAO observacaoDAO = new ObservacaoDAO();
-        AlunoDAO alunoDAO = new AlunoDAO();
-        ProfessorDAO professorDAO = new ProfessorDAO();
         String erro = null;
 
         try {
@@ -40,7 +36,7 @@ public class UpdateObservacao extends HttpServlet {
             Observacao observacao = observacaoDAO.readById(id);
             if (observacao == null) throw new Exception("Observação não encontrada.");
 
-            observacao.setComentario(comentario);
+            observacao.setComentario(texto);
             observacao.setFkProfessorId(fkProfessorId);
             observacao.setFkAlunoId(fkAlunoId);
             observacao.setDataEnvio(LocalDateTime.now());
@@ -52,34 +48,12 @@ public class UpdateObservacao extends HttpServlet {
                 erro = "Erro ao atualizar observação no banco.";
             }
 
-        } catch (NumberFormatException e) {
-            erro = "Dados inválidos.";
-        } catch (IllegalArgumentException e) {
-            erro = "Validação: " + e.getMessage();
         } catch (Exception e) {
             e.printStackTrace();
             erro = "Erro: " + e.getMessage();
         }
 
         request.setAttribute("erro", erro);
-        request.setAttribute("modalAtivo", "update");
-
-        try {
-            request.setAttribute("listaObservacoes", observacaoDAO.read());
-            request.setAttribute("listaAlunos", alunoDAO.read());
-            request.setAttribute("listaProfessores", professorDAO.read());
-
-            if (idStr != null) {
-                request.setAttribute("observacaoModal", observacaoDAO.readById(Integer.parseInt(idStr)));
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (request.getAttribute("erro") == null) {
-                request.setAttribute("erro", "Erro ao recarregar as listas.");
-            }
-        }
-
         request.getRequestDispatcher("/WEB-INF/pages/observacoes.jsp").forward(request, response);
     }
 }

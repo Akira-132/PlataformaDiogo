@@ -55,6 +55,6 @@ public class DeleteDisciplina extends HttpServlet {
             }
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/disciplinas.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/pages/turma.jsp").forward(request, response);
     }
 }

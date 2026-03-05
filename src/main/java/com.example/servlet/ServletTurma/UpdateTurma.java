@@ -23,7 +23,7 @@ public class UpdateTurma extends HttpServlet {
         String idStr = request.getParameter("id");
         String periodo = request.getParameter("periodo");
         String sala = request.getParameter("sala");
-        String idDisciplinaStr = request.getParameter("fkDisciplinaId");
+        // String idDisciplinaStr = request.getParameter("fkDisciplinaId");
 
         TurmaDAO turmaDAO = new TurmaDAO();
         DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
@@ -31,14 +31,13 @@ public class UpdateTurma extends HttpServlet {
 
         try {
             int id = Integer.parseInt(idStr);
-            int fkDisciplinaId = Integer.parseInt(idDisciplinaStr);
 
             Turma turma = turmaDAO.readById(id);
             if (turma == null) throw new Exception("Turma não encontrada.");
 
             turma.setPeriodo(periodo);
             turma.setSala(sala);
-            turma.setFkDisciplinaId(fkDisciplinaId);
+            // Mantém a disciplina que já estava na turma, já que o modal não a edita.
 
             if (turmaDAO.update(turma) > 0) {
                 response.sendRedirect(request.getContextPath() + "/turma-read");
@@ -74,6 +73,7 @@ public class UpdateTurma extends HttpServlet {
             }
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/turmas.jsp").forward(request, response);
+        // CORREÇÃO AQUI: Mandar de volta para o JSP correto (turmas-adm)
+        request.getRequestDispatcher("/WEB-INF/pages/turmas-adm.jsp").forward(request, response);
     }
 }

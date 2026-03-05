@@ -1,16 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.example.models.Usuario" %>
 <%@ page import="com.example.models.Turma" %>
-<%@ page import="com.example.models.TurmaAluno" %>
 <%@ page import="com.example.models.Aluno" %>
 <%@ page import="java.util.List" %>
 
 <%
     Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
     Turma turmaAtual = (Turma) request.getAttribute("turmaAtual");
-    List<TurmaAluno> listaAlunos = (List<TurmaAluno>) request.getAttribute("listaAlunos");
+    List<Aluno> alunosMatriculados = (List<Aluno>) request.getAttribute("listaAlunos");
     List<Aluno> listaTodosAlunos = (List<Aluno>) request.getAttribute("listaTodosAlunos");
+
     String erro = (String) request.getAttribute("erro");
+
+    int idTurmaAtual = (turmaAtual != null) ? turmaAtual.getId() : 0;
+    String nomeTurma = (turmaAtual != null) ? turmaAtual.getSala() : "Turma";
 %>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -18,126 +21,147 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="../../assets/imgs/Logo.png" type="image/x-icon" />
-    <link rel="stylesheet" href="../../assets/styles/turmaAdm.css" />
-    <link rel="stylesheet" href="../../assets/styles/globalApp.css" />
-    <link rel="stylesheet" href="../../assets/styles/notasProfessor.css" />
-    <title>Monsters University</title>
+
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/imgs/Logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/styles/turmaAdm.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/styles/globalApp.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/styles/modal.css">
+
+    <title>Gerenciar Turma - <%= nomeTurma %></title>
 </head>
 
 <body>
-<input type="checkbox" id="modal-input" hidden />
+
+<input type="checkbox" id="modal-adicionar-aluno" hidden />
+
+<div id="overlay-adicionar-aluno" class="overlay-statico">
+    <div class="modal">
+        <h2>Matricular Aluno</h2>
+        <form action="${pageContext.request.contextPath}/turma-aluno-create" method="post">
+            <input type="hidden" name="fkTurmaId" value="<%= idTurmaAtual %>" />
+
+            <div class="campo">
+                <label for="select-aluno">Selecione o Aluno</label>
+                <select id="select-aluno" name="fkAlunoId" required">
+                    <option value="">Escolha um aluno...</option>
+                    <%
+                        if (listaTodosAlunos != null) {
+                            for (Aluno a : listaTodosAlunos) {
+                                String nomeAluno = (a.getUsuario() != null)
+                                        ? a.getUsuario().getNome() + " " + a.getUsuario().getSobrenome()
+                                        : "Aluno Matrícula: " + a.getMatricula();
+                    %>
+                    <option value="<%= a.getId() %>">
+                        <%= nomeAluno %>
+                    </option>
+                    <%      }
+                    }
+                    %>
+                </select>
+            </div>
+
+            <div class="modal-botoes">
+                <label for="modal-adicionar-aluno" class="btn-cancelar">Cancelar</label>
+                <button type="submit" class="btn-confirmar">Matricular</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <aside>
     <div id="logo">
-        <img src="../../assets/imgs/Logo.png" alt="" />
+        <img src="${pageContext.request.contextPath}/assets/imgs/Logo.png" alt="" />
     </div>
     <nav>
-        <a href="<%= request.getContextPath() %>/turma-read" class="ativo">
-            <img src="../../assets/imgs/icone-diciplinas.png" alt="" />
-            Disciplina
+        <a href="${pageContext.request.contextPath}/turma-read" class="ativo">
+            <img src="${pageContext.request.contextPath}/assets/imgs/icone-diciplinas.png" alt="" />
+            Voltar p/ Disciplinas
         </a>
-        <label for="modal-input">
-            <img src="../../assets/imgs/icone-adicionar.png" alt="" />
-            Adicionar
+
+        <label for="modal-adicionar-aluno" style="cursor: pointer; display: flex; align-items: center; gap: 15px; padding: 20px 0 20px 30px; font-weight: 500;">
+            <img src="${pageContext.request.contextPath}/assets/imgs/icone-adicionar.png" alt="" />
+            Matricular Aluno
         </label>
-        <a href="#">
-            <img src="../../assets/imgs/icone-professores.png" alt=""/>
-            Professores
-        </a>
     </nav>
 
     <div id="info-usuario">
         <div id="avatar">
-            <img src="../../assets/imgs/icone-usuario.png" alt="" />
+            <img src="${pageContext.request.contextPath}/assets/imgs/icone-usuario.png" alt="" />
         </div>
         <span>
-                <strong><%= (usuarioLogado != null) ? usuarioLogado.getNome() + " "
-                        + usuarioLogado.getSobrenome() : "Admin" %></strong>
-                Administração
-            </span>
+            <strong><%= (usuarioLogado != null) ? usuarioLogado.getNome() : "Admin" %></strong>
+            Administração
+        </span>
     </div>
 </aside>
 
 <main>
-    <header>Minha disciplina</header>
+    <header>Gerenciar Turma</header>
+
     <div id="conteudo">
 
         <% if (erro != null) { %>
-            <div style="color: #ff4d4d; text-align: center;"><%= erro %></div>
+        <div style="color: #ff4d4d; text-align: center; margin-bottom: 15px;"><%= erro %></div>
         <% } %>
 
-        <h1>TURMA <%= (turmaAtual != null) ? turmaAtual.getSala() : "" %></h1>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h1>TURMA <%= nomeTurma %></h1>
 
-        <a href="<%= request.getContextPath() %>/nota-read?idTurma=<%= turmaAtual.getId() %>">
-            <button style="cursor: pointer;">NOTAS</button>
-        </a>
+            <a href="${pageContext.request.contextPath}/nota-read?idTurma=<%= idTurmaAtual %>">
+                <button style="cursor: pointer; padding: 10px 20px; color: white; border: none; border-radius: 5px;">
+                    VER NOTAS
+                </button>
+            </a>
+        </div>
+
         <div id="alunos-lista">
             <%
-                if (listaAlunos != null && !listaAlunos.isEmpty()) {
-                    for (TurmaAluno ta : listaAlunos) {
+                if (alunosMatriculados != null && !alunosMatriculados.isEmpty()) {
+                    for (Aluno a : alunosMatriculados) {
+                        String nomeDisplay = (a.getUsuario() != null)
+                                ? a.getUsuario().getNome() + " " + a.getUsuario().getSobrenome()
+                                : "Matrícula: " + a.getMatricula();
             %>
+
             <div class="aluno-card">
 
-                <a href="<%= request.getContextPath() %>/aluno-read?id=<%= ta.getAluno().getId() %>">
-                    <%= ta.getAluno().getUsuario().getNome() %> <%= ta.getAluno().getUsuario().getSobrenome() %>
+                <a href="${pageContext.request.contextPath}/aluno-read?id=<%= a.getId() %>" style="text-decoration: none; color: inherit; font-weight: bold; flex-grow: 1;">
+                    <%= nomeDisplay %>
                 </a>
 
-                <form action="<%= request.getContextPath() %>/turma-aluno-delete" method="post">
-                    <input type="hidden" name="idTurmaAluno" value="<%= ta.getId() %>" />
-                    <input type="hidden" name="idTurma" value="<%= turmaAtual.getId() %>" />
-                    <input type="image" src="../../assets/imgs/icone-lixeira.png" alt="Remover" class="icone-lixeira"
-                           onclick="return confirm('Deseja realmente remover o aluno desta turma?');" />
-                </form>
+                <form action="${pageContext.request.contextPath}/turma-aluno-delete" method="post" style="margin: 0;">
+                    <input type="hidden" name="idTurma" value="<%= idTurmaAtual %>" />
+                    <input type="hidden" name="idAluno" value="<%= a.getId() %>" />
 
+                    <button type="submit" style="background: none; border: none; cursor: pointer;" onclick="return confirm('Tem certeza que deseja remover <%= nomeDisplay %> desta turma?');">
+                        <img src="${pageContext.request.contextPath}/assets/imgs/icone-lixeira.png" alt="Remover" style="width: 20px; height: 20px;" />
+                    </button>
+                </form>
             </div>
+
             <%
                 }
             } else {
             %>
-            <p style="text-align: center;">Nenhum aluno matriculado nesta turma.</p>
+            <div style="text-align: center; margin-top: 30px;">
+                <p>Nenhum aluno matriculado nesta turma.</p>
+                <p style="font-size: 0.9em;">Use o botão "Matricular Aluno" no menu lateral.</p>
+            </div>
             <%  } %>
         </div>
 
     </div>
 </main>
 
-<div id="modal-overlay">
-    <div class="modal">
-        <p class="modal-titulo">Adicionar Aluno</p>
-        <hr>
-
-        <form action="<%= request.getContextPath() %>/turma-aluno-create" method="post">
-            <input type="hidden" name="fkTurmaId" value="<%= (turmaAtual != null) ? turmaAtual.getId() : "" %>" />
-
-            <div class="modal-campos">
-                <div class="modal-campo full">
-                    <label for="fkAlunoId">Selecione o Aluno</label>
-                    <div class="input-content">
-                        <select name="fkAlunoId" id="fkAlunoId" required>
-                            <option value="">Escolha um aluno</option>
-                            <%
-                                if (listaTodosAlunos != null) {
-                                    for (Aluno a : listaTodosAlunos) {
-                            %>
-                            <option value="<%= a.getId() %>"><%= a.getUsuario().getNome() %>
-                                <%= a.getUsuario().getSobrenome() %></option>
-                            <%
-                                    }
-                                }
-                            %>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-botoes">
-                <label for="modal-input" id="btn-cancelar" style="cursor: pointer;">Cancelar</label>
-                <button type="submit" id="btn-adicionar">Matricular</button>
-            </div>
-        </form>
-    </div>
-</div>
+<style>
+    #modal-adicionar-aluno:checked + #overlay-adicionar-aluno {
+        display: flex;
+        position: fixed; top: 0; left: 0;
+        justify-content: center; align-items: center; z-index: 1000;
+    }
+    #overlay-adicionar-aluno { display: none; }
+    .modal { background: white; padding: 20px; border-radius: 8px; width: 90%; max-width: 500px; }
+</style>
 
 </body>
 </html>
