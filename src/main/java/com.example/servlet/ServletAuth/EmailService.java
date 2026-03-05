@@ -12,9 +12,7 @@ public class EmailService {
 
     private static final String EMAIL_REMETENTE = "monstrossa132@gmail.com";
     private static final String SENHA_APP = "npix vsmf fpww zpfo";
-
     private static final ExecutorService executor = Executors.newFixedThreadPool(2);
-
     private static final Session session;
 
     static {
@@ -40,9 +38,10 @@ public class EmailService {
                 message.setFrom(new InternetAddress(EMAIL_REMETENTE));
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
                 message.setSubject("Monsters University - Recuperação de Senha");
+
                 message.setText(
-                        "Olá!\n\nSeu código de verificação de 5 dígitos é: "
-                                + codigo +
+                        "RAAAAGH!\n\n" +
+                                "Eae Monstrão! Seu código de verificação de 5 dígitos é: " + codigo +
                                 "\n\nSe você não solicitou isso, ignore este e-mail."
                 );
 
@@ -50,7 +49,7 @@ public class EmailService {
 
             } catch (MessagingException e) {
                 e.printStackTrace();
-                System.out.println("CÓDIGO GERADO (fallback): " + codigo);
+                System.out.println("ERRO DE EMAIL - CÓDIGO GERADO (fallback): " + codigo);
             }
         });
     }

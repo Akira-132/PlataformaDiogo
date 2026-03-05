@@ -48,6 +48,6 @@ public class ReadProfessor extends HttpServlet {
             request.setAttribute("erro", "Erro inesperado ao carregar dados dos professores.");
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/professores.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/professores.jsp").forward(request, response);
     }
 }

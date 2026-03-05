@@ -1,8 +1,11 @@
 package com.example.servlet.ServletObservacao;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import com.example.models.Observacao;
+import com.example.models.Aluno;
+import com.example.models.Usuario;
 import com.example.dao.ObservacaoDAO;
 import com.example.dao.AlunoDAO;
 import com.example.dao.ProfessorDAO;
@@ -11,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/observacao-read")
 public class ReadObservacao extends HttpServlet {
@@ -19,45 +23,69 @@ public class ReadObservacao extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession();
+        Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
+
         ObservacaoDAO observacaoDAO = new ObservacaoDAO();
         AlunoDAO alunoDAO = new AlunoDAO();
         ProfessorDAO professorDAO = new ProfessorDAO();
 
-        String acao = request.getParameter("acao");
-        String idStr = request.getParameter("id");
+        String idAlunoStr = request.getParameter("idAluno");
+        String idObsStr = request.getParameter("id");
 
         try {
-            List<Observacao> lista = observacaoDAO.read();
-            request.setAttribute("listaObservacoes", lista);
-
-            if ("prepararCreate".equals(acao) || "prepararUpdate".equals(acao)) {
-                request.setAttribute("listaAlunos", alunoDAO.read());
-                request.setAttribute("listaProfessores", professorDAO.read());
+            boolean isProfessor = false;
+            if (usuarioLogado != null && professorDAO.readByUsuarioId(usuarioLogado.getId()) != null) {
+                isProfessor = true;
             }
 
-            if ("prepararCreate".equals(acao)) {
-                request.setAttribute("modalAtivo", "create");
-            }
-            else if (idStr != null) {
-                int id = Integer.parseInt(idStr);
-                Observacao observacao = observacaoDAO.readById(id);
+            if (idObsStr != null) {
+                int idObs = Integer.parseInt(idObsStr);
+                Observacao obs = observacaoDAO.readById(idObs);
 
-                if (observacao != null) {
-                    request.setAttribute("observacaoModal", observacao);
+                if (obs != null) {
+                    request.setAttribute("observacao", obs);
+                    request.setAttribute("alunoAtual", alunoDAO.readById(obs.getFkAlunoId()));
+                }
 
-                    if ("prepararUpdate".equals(acao)) {
-                        request.setAttribute("modalAtivo", "update");
-                    } else if ("prepararDelete".equals(acao)) {
-                        request.setAttribute("modalAtivo", "delete");
+                if (isProfessor) {
+                    request.getRequestDispatcher("/observacao-detalhe-prof.jsp").forward(request, response);
+                } else {
+                    request.getRequestDispatcher("/observacao-detalhe-adm.jsp").forward(request, response);
+                }
+                return;
+
+            } else if (idAlunoStr != null) {
+                int idAluno = Integer.parseInt(idAlunoStr);
+                Aluno aluno = alunoDAO.readById(idAluno);
+
+                List<Observacao> todas = observacaoDAO.read();
+                List<Observacao> doAluno = new ArrayList<>();
+                if (todas != null) {
+                    for (Observacao o : todas) {
+                        if (o.getFkAlunoId() == idAluno) {
+                            doAluno.add(o);
+                        }
                     }
                 }
+
+                request.setAttribute("alunoAtual", aluno);
+                request.setAttribute("listaObservacoes", doAluno);
+
+                if (isProfessor) {
+                    request.getRequestDispatcher("/historico-professor.jsp").forward(request, response);
+                } else {
+                    request.getRequestDispatcher("/historico-adm.jsp").forward(request, response);
+                }
+                return;
             }
+
+            response.sendRedirect(request.getContextPath() + "/turma-read");
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("erro", "Erro inesperado ao carregar dados.");
+            request.setAttribute("erro", "Erro ao carregar dados.");
+            response.sendRedirect(request.getContextPath() + "/turma-read");
         }
-
-        request.getRequestDispatcher("/WEB-INF/pages/observacoes.jsp").forward(request, response);
     }
 }

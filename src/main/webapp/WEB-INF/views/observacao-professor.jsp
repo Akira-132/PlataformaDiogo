@@ -1,3 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.example.models.Observacao" %>
+
+<%
+  Observacao observacao = (Observacao) request.getAttribute("observacao");
+%>
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -16,7 +24,7 @@
       <img src="../../assets/imgs/Logo.png" alt="" />
     </div>
     <nav>
-      <a href="turmasProfessor.html" class="ativo">
+      <a href="turmas-professor.jsp" class="ativo">
         <img src="../../assets/imgs/icone-diciplinas.png" alt="" />
         Disciplinas
       </a>
@@ -39,10 +47,10 @@
     <div id="conteudo">
       <div id="topo">
         <h1>Diogo Martins Nascimento</h1>
-        <a href="historicoProf.html" id="btn-historico">Ver histórico</a>
+        <a href="historico-prof.jsp" id="btn-historico">Ver histórico</a>
       </div>
 
-      <form action="historicoProf.html" method="get">
+      <form action="historico-prof.jsp" method="get">
         <input type="text" name="titulo" placeholder="Título" required>
         
         <textarea name="texto" placeholder="Texto sobre o Roberto Dinamite" minlength="100" required></textarea>

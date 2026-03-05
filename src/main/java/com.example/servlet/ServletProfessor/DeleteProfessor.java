@@ -39,22 +39,6 @@ public class DeleteProfessor extends HttpServlet {
         }
 
         request.setAttribute("erro", erro);
-        request.setAttribute("modalAtivo", "delete");
-
-        try {
-            request.setAttribute("listaProfessores", professorDAO.read());
-
-            String idStr = request.getParameter("id");
-            if (idStr != null) {
-                request.setAttribute("professorModal", professorDAO.readById(Integer.parseInt(idStr)));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (request.getAttribute("erro") == null) {
-                request.setAttribute("erro", "Erro ao recarregar a lista.");
-            }
-        }
-
-        request.getRequestDispatcher("/WEB-INF/pages/professores.jsp").forward(request, response);
+        request.getRequestDispatcher("/professor-read").forward(request, response);
     }
 }

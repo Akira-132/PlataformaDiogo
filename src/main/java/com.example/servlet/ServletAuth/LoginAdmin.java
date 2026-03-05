@@ -45,7 +45,7 @@ public class LoginAdmin extends HttpServlet {
                     session.setAttribute("usuarioLogado", usuario);
                     session.setAttribute("role", "admin");
 
-                    response.sendRedirect(request.getContextPath() + "/adminTELA.jsp");
+                    response.sendRedirect(request.getContextPath() + "/turma-read");
                     return;
                 } else {
                     request.setAttribute("erro", "Você não tem permissão de administrador.");

@@ -48,6 +48,6 @@ public class ReadAdmin extends HttpServlet {
             request.setAttribute("erro", "Erro inesperado ao carregar dados do sistema.");
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/admins.jsp").forward(request, response);
+        request.getRequestDispatcher("/adicionar.jsp").forward(request, response);
     }
 }

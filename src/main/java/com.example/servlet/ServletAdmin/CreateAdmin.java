@@ -30,6 +30,7 @@ public class CreateAdmin extends HttpServlet {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         AdminDAO adminDAO = new AdminDAO();
         String erro = null;
+        Usuario usuarioCriado = null;
 
         try {
             Usuario novoUsuario = new Usuario(nome, sobrenome, email, senha);
@@ -38,15 +39,14 @@ public class CreateAdmin extends HttpServlet {
                 throw new SQLException("Falha ao criar o usuário base.");
             }
 
-            Usuario usuarioBanco = usuarioDAO.readByEmail(email);
-            if (usuarioBanco == null) {
+            usuarioCriado = usuarioDAO.readByEmail(email);
+            if (usuarioCriado == null) {
                 throw new SQLException("Erro crítico: Usuário criado, mas ID não encontrado.");
             }
 
-            Admin novoAdmin = new Admin(usuarioBanco.getId());
+            Admin novoAdmin = new Admin(usuarioCriado.getId());
 
             if (!adminDAO.create(novoAdmin)) {
-                usuarioDAO.deleteById(usuarioBanco.getId());
                 throw new SQLException("Erro ao vincular perfil de administrador.");
             }
 
@@ -57,6 +57,15 @@ public class CreateAdmin extends HttpServlet {
             erro = "Validação: " + e.getMessage();
         } catch (SQLException e) {
             e.printStackTrace();
+
+            if (usuarioCriado != null) {
+                try {
+                    usuarioDAO.deleteById(usuarioCriado.getId());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
             if (e.getMessage().contains("Duplicate") || e.getMessage().contains("UNIQUE")) {
                 erro = "Este e-mail já está em uso.";
             } else {
@@ -80,6 +89,6 @@ public class CreateAdmin extends HttpServlet {
             request.setAttribute("erro", "Erro crítico: Não foi possível carregar a lista de administradores.");
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/admins.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin-read").forward(request, response);
     }
 }

@@ -35,22 +35,6 @@ public class DeleteNota extends HttpServlet {
         }
 
         request.setAttribute("erro", erro);
-        request.setAttribute("modalAtivo", "delete");
-
-        try {
-            request.setAttribute("listaNotas", notaDAO.read());
-
-            String idStr = request.getParameter("id");
-            if (idStr != null) {
-                request.setAttribute("notaModal", notaDAO.readById(Integer.parseInt(idStr)));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (request.getAttribute("erro") == null) {
-                request.setAttribute("erro", "Erro ao recarregar a lista.");
-            }
-        }
-
-        request.getRequestDispatcher("/WEB-INF/pages/notas.jsp").forward(request, response);
+        request.getRequestDispatcher("/nota-read").forward(request, response);
     }
 }
