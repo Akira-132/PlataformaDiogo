@@ -215,3 +215,71 @@ tbody td:last-child {
   transform: translateY(-0.1rem);
   filter: brightness(0.95);
 }
+
+/* ========================= */
+/* RESPONSIVIDADE */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+  #conteudo {
+    padding: 1.5rem;
+  }
+
+  table {
+    background: transparent;
+    padding: 0;
+  }
+
+  thead {
+    display: none; /* Esconde cabeçalho no mobile */
+  }
+
+  tbody tr {
+    display: block;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    padding: 1rem;
+  }
+
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    font-size: 0.9rem;
+  }
+
+  tbody td:first-child {
+    font-size: 1rem;
+    font-weight: 800;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+
+  tbody td:first-child::before {
+    content: "";
+  }
+
+  .icone-editar {
+    width: 2.5rem;
+  }
+
+  /* Modal ajuste mobile */
+  .modal {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .modal-campos {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-campo.full {
+    width: 100%;
+  }
+}

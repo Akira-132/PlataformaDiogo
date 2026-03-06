@@ -1,3 +1,7 @@
+/* ========================= */
+/* ESTILOS BASE */
+/* ========================= */
+
 #conteudo {
   flex: 1;
   overflow-y: auto;
@@ -68,4 +72,65 @@ button:hover {
 .aluno-card.ativo {
   background: #ffffff;
   border-color: #2563eb;
+}
+
+/* ========================= */
+/* RESPONSIVIDADE */
+/* ========================= */
+
+@media (max-width: 1024px) {
+  #conteudo {
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.9rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 0.7rem 2.5rem;
+  }
+
+  .aluno-card {
+    font-size: 0.95rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #conteudo {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.7rem;
+    letter-spacing: 0.05rem;
+  }
+
+  button {
+    font-size: 0.85rem;
+    padding: 0.6rem 2rem;
+  }
+
+  .aluno-card {
+    font-size: 0.9rem;
+    padding: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  button {
+    font-size: 0.8rem;
+    padding: 0.5rem 1.5rem;
+  }
+
+  .aluno-card {
+    font-size: 0.85rem;
+    padding: 1rem;
+  }
 }

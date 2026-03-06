@@ -1,25 +1,46 @@
+/* ========================= */
+/* ESTILOS BASE */
+/* ========================= */
+
 #fundo {    
     align-items: flex-start;
 }
 
-#montro_ponte {
+header img#logo {
+    max-width: 200px;   /* tamanho máximo em telas grandes */
+    width: 30%;         /* proporcional ao container */
+    height: auto;
     display: block;
     margin: 0 auto;
+}
+
+#montro_ponte {
+    display: block;
+    margin: 0 auto -4rem auto;
     z-index: 5;
-    margin-bottom: -4rem;
+    max-width: 200px;
+    width: 40%;
+    height: auto;
 }
 
 h1 {
-    font-size: 2.8rem;
+    font-size: clamp(1.5rem, 4vw, 2.8rem);
+    text-align: center;
 }
 
 input {
     margin-top: 2rem;
     margin-bottom: 2rem;
+    padding: 0.8rem;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
 }
+
 input[type="submit"] {
     width: 45%;
 }
+
 #links_principais a {
     color: #0491FC;
     text-decoration: none;
@@ -30,7 +51,8 @@ input[type="submit"] {
 
 #buttons {
     display: flex;
-    gap: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
     justify-content: center;
     align-items: center;
     margin-top: 2rem;
@@ -44,6 +66,8 @@ input[type="submit"] {
     border-radius: 15px;
     font-size: 1.1rem;
     cursor: pointer;
+    flex: 1 1 45%;
+    text-align: center;
 }
 
 #btn-voltar:hover {
@@ -54,4 +78,67 @@ input[type="submit"] {
 #btn-login {
     padding: 1rem 2rem;
     margin-top: 1.9rem;
+    flex: 1 1 45%;
+    text-align: center;
+}
+
+/* ========================= */
+/* RESPONSIVIDADE */
+/* ========================= */
+
+@media (max-width: 768px) {
+    #container {
+        width: 95%;
+        margin: 0 auto;
+    }
+
+    header img#logo {
+        max-width: 150px;
+        width: 40%;
+    }
+
+    #montro_ponte {
+        width: 180px;
+        margin-bottom: -2rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    input[type="submit"] {
+        width: 100%;
+        margin-top: 0;
+    }
+
+    #buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    #btn-voltar,
+    #btn-login {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    header img#logo {
+        max-width: 100px;
+        width: 60%;
+    }
+
+    #montro_ponte {
+        width: 120px;
+        margin-bottom: -1rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    #btn-voltar,
+    #btn-login {
+        flex: 1 1 100%;
+    }
 }

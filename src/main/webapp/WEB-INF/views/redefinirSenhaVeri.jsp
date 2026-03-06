@@ -10,6 +10,7 @@
     <title>Recuperação de Senha</title>
 </head>
 <body>
+<<<<<<< HEAD
 <header>
     <img src="${pageContext.request.contextPath}/assets/imgs/Logo.png" alt="LOGO">
 </header>
@@ -39,6 +40,29 @@
                         text-align: center;
                         font-size: 14px;">
                 <%= erro %>
+=======
+    <header>
+        <img id="logo" src="../../assets/imgs/Logo.png" alt="LOGO">
+    </header>
+
+    <div id="fundo">
+
+        <div id="container">
+            <img src="../../assets/imgs/montro_ponte.png" alt="Criança" id="montro_ponte">
+            <div id="login-box">
+                <h1>Verificação Aluno</h1>
+                <div>
+                    <form action="verificaçao.jsp" method="post">
+                        <input type="text" id="username" name="username" placeholder="Digite o seu email" required>
+                        
+                        
+                        <div id="buttons">
+                            <a href="../../index.htm" id="btn-voltar">Voltar</a>
+                            <input type="submit" value="Entrar" id="btn-login">
+                        </div>
+                    </form>
+                </div>
+>>>>>>> 7449a70c82a5bd40c4382aca35898a97615b3835
             </div>
             <% } %>
 

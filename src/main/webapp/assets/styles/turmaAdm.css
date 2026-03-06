@@ -17,10 +17,14 @@ a {
   text-decoration: none;
   color: #1a1a2e;
 }
+<<<<<<< HEAD
 select{
   appearance: none;
 
 }
+=======
+
+>>>>>>> 7449a70c82a5bd40c4382aca35898a97615b3835
 button {
   display: block;
   width: fit-content;
@@ -40,15 +44,23 @@ button:hover {
   transform: translateY(-0.1rem);
 }
 
+<<<<<<< HEAD
 #alunos-lista,
 #professores-lista {
+=======
+#alunos-lista {
+>>>>>>> 7449a70c82a5bd40c4382aca35898a97615b3835
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
+<<<<<<< HEAD
 .aluno-card,
 .professor-card {
+=======
+.aluno-card {
+>>>>>>> 7449a70c82a5bd40c4382aca35898a97615b3835
   background: #fff;
   box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.329);
   border: 0.1rem solid transparent;
@@ -59,18 +71,35 @@ button:hover {
   color: #1a1a2e;
   cursor: pointer;
   text-decoration: none;
+<<<<<<< HEAD
   display: flex; 
   align-items: center; 
+=======
+  display: flex;
+  align-items: center;
+>>>>>>> 7449a70c82a5bd40c4382aca35898a97615b3835
   justify-content: space-between;
   transition: all 0.2s;
 }
 
+<<<<<<< HEAD
 .aluno-card:hover,
 .professor-card:hover {
+=======
+.aluno-card:hover {
+>>>>>>> 7449a70c82a5bd40c4382aca35898a97615b3835
   transform: translateY(-0.1rem);
   border-color: rgb(58, 56, 56);
 }
 
+<<<<<<< HEAD
+=======
+.aluno-card.ativo {
+  background: #ffffff;
+  border-color: #2563eb;
+}
+
+>>>>>>> 7449a70c82a5bd40c4382aca35898a97615b3835
 .icone-lixeira {
   width: 2rem;
   border-radius: 0.5rem;
@@ -81,4 +110,81 @@ button:hover {
 
 .icone-lixeira:hover {
   transform: translateY(-0.1rem);
+<<<<<<< HEAD
 }
+=======
+}
+
+/* ========================= */
+/* RESPONSIVIDADE */
+/* ========================= */
+
+@media (max-width: 1024px) {
+  #conteudo {
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.9rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 0.7rem 2.5rem;
+  }
+
+  .aluno-card {
+    font-size: 0.95rem;
+    padding: 1.5rem;
+  }
+
+  .icone-lixeira {
+    width: 1.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #conteudo {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.7rem;
+    letter-spacing: 0.05rem;
+  }
+
+  button {
+    font-size: 0.85rem;
+    padding: 0.6rem 2rem;
+  }
+
+  .aluno-card {
+    font-size: 0.9rem;
+    padding: 1.2rem;
+  }
+
+  .icone-lixeira {
+    width: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  button {
+    font-size: 0.8rem;
+    padding: 0.5rem 1.5rem;
+  }
+
+  .aluno-card {
+    font-size: 0.85rem;
+    padding: 1rem;
+  }
+
+  .icone-lixeira {
+    width: 1.4rem;
+  }
+}
+>>>>>>> 7449a70c82a5bd40c4382aca35898a97615b3835
