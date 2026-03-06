@@ -39,3 +39,7 @@ build/
 
 src/main/resources/.env
 .env
+
+node_modules
+
+.idea
