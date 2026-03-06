@@ -145,6 +145,50 @@ public class TelefoneDAO {
         return telefone;
     }
 
+    public List<Telefone> readByUsuarioId(int fkUsuarioId) throws SQLException {
+        String sql = "SELECT t.id_telefone, t.telefone, t.id_usuario, " +
+                "u.id_usuario, u.nome, u.sobrenome, u.email, u.senha " +
+                "FROM telefone t " +
+                "INNER JOIN usuario u ON t.id_usuario = u.id_usuario " +
+                "WHERE t.id_usuario = ?";
+
+        Conexao conexao = new Conexao();
+        List<Telefone> listaTelefone = new LinkedList<>();
+
+        try (Connection conn = conexao.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, fkUsuarioId);
+
+            try (ResultSet rset = pstmt.executeQuery()) {
+
+                while (rset.next()) {
+
+                    Usuario usuario = new Usuario(
+                            rset.getInt("id_usuario"),
+                            rset.getString("nome"),
+                            rset.getString("sobrenome"),
+                            rset.getString("email"),
+                            rset.getString("senha")
+                    );
+
+                    Telefone telefone = new Telefone(
+                            rset.getInt("id_telefone"),
+                            rset.getString("telefone"),
+                            rset.getInt("id_usuario")
+                    );
+
+                    telefone.setUsuario(usuario);
+
+                    listaTelefone.add(telefone);
+                }
+            }
+        }
+
+        return listaTelefone;
+    }
+
+
     public int update(Telefone telefone) throws SQLException {
         String sql = "UPDATE telefone SET telefone = ?, id_usuario = ? WHERE id_telefone = ?";
         Conexao conexao = new Conexao();

@@ -36,15 +36,15 @@
     </a>
   </nav>
 
-  <div id="info-usuario">
+  <div id="info-usuario" onclick="window.location.href='${pageContext.request.contextPath}/perfil-read'" style="cursor: pointer;">
     <div id="avatar">
       <img src="${pageContext.request.contextPath}/assets/imgs/icone-usuario.png" alt="" />
     </div>
     <span>
-      <strong><%= (usuarioLogado != null) ? usuarioLogado.getNome() + " "
-              + usuarioLogado.getSobrenome() : "Aluno" %></strong>
-      Meu Boletim
-    </span>
+    <strong><%= (usuarioLogado != null) ? usuarioLogado.getNome() + " "
+            + usuarioLogado.getSobrenome() : "Aluno" %></strong>
+    Meu Boletim
+  </span>
   </div>
 </aside>
 

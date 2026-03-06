@@ -16,7 +16,7 @@ public class BoletimDAO {
         String sql = "SELECT mf.id_aluno, mf.nome_completo, mf.disciplina, " +
                 "MAX(CASE WHEN mp.tipo = 'P1' THEN mp.media END) AS media_p1, " +
                 "MAX(CASE WHEN mp.tipo = 'P2' THEN mp.media END) AS media_p2, " +
-                "mf.media_final, mf.situação, mf.semestre, mf.ano " +
+                "mf.media_final, mf.situacao, mf.semestre, mf.ano " +
                 "FROM Media_Final mf " +
                 "LEFT JOIN Media_Por_P1_P2 mp " +
                 "ON mf.id_aluno = mp.Id_aluno " +
@@ -24,7 +24,7 @@ public class BoletimDAO {
                 "AND mf.semestre = mp.Semestre " +
                 "AND mf.ano = mp.ano " +
                 "WHERE mf.id_aluno = ? " +
-                "GROUP BY mf.id_aluno, mf.nome_completo, mf.disciplina, mf.media_final, mf.situação, mf.semestre, mf.ano " +
+                "GROUP BY mf.id_aluno, mf.nome_completo, mf.disciplina, mf.media_final, mf.situacao, mf.semestre, mf.ano " +
                 "ORDER BY mf.ano DESC, mf.semestre DESC, mf.disciplina";
 
         Conexao conexao = new Conexao();
@@ -44,7 +44,7 @@ public class BoletimDAO {
                             rset.getDouble("media_p1"),
                             rset.getDouble("media_p2"),
                             rset.getDouble("media_final"),
-                            rset.getString("situação"),
+                            rset.getString("situacao"),
                             rset.getInt("semestre"),
                             rset.getInt("ano")
                     );

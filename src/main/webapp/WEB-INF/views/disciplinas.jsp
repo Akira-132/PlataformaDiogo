@@ -38,7 +38,7 @@
     </a>
   </nav>
 
-  <div id="info-usuario">
+  <div id="info-usuario" onclick="window.location.href='${pageContext.request.contextPath}/perfil-read'" style="cursor: pointer;">
     <div id="avatar">
       <img src="${pageContext.request.contextPath}/assets/imgs/icone-usuario.png" alt="" />
     </div>
@@ -65,7 +65,7 @@
           String corCard = (count % 2 == 0) ? "verde" : "roxo";
           count++;
     %>
-    <a href="${pageContext.request.contextPath}/WEB-INF/views/disciplina-detalhe.jsp">
+    <a href="${pageContext.request.contextPath}/disciplina-detalhe-read?id=<%= d.getId() %>">
       <div id="disciplina-<%= d.getId() %>" class="card <%= corCard %>">
         <img src="${pageContext.request.contextPath}/assets/imgs/icone-diciplinas.png" alt="" />
         <span><%= d.getNome() %></span>
