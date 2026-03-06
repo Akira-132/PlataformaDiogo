@@ -44,6 +44,7 @@ public class Login extends HttpServlet {
                 if (usuarioLogado != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("usuarioLogado", usuarioLogado);
+                    session.setAttribute("role", "aluno");
                     response.sendRedirect(request.getContextPath() + "/boletim-read");
                     return;
                 }
@@ -53,6 +54,7 @@ public class Login extends HttpServlet {
                 if (usuarioLogado != null && professorDAO.readByUsuarioId(usuarioLogado.getId()) != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("usuarioLogado", usuarioLogado);
+                    session.setAttribute("role", "professor");
                     response.sendRedirect(request.getContextPath() + "/turma-read");
                     return;
                 }
