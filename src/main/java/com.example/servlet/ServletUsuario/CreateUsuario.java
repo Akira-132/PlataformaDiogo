@@ -74,6 +74,6 @@ public class CreateUsuario extends HttpServlet {
         request.setAttribute("listaUsuarios", listaUsuarios);
 
         request.setAttribute("modalAtivo", "create");
-        request.getRequestDispatcher("/WEB-INF/pages/usuarios.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/usuarios.jsp").forward(request, response);
     }
 }

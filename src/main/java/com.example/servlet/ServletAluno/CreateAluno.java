@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 @WebServlet("/aluno-create")
 public class CreateAluno extends HttpServlet {
@@ -32,6 +31,7 @@ public class CreateAluno extends HttpServlet {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         AlunoDAO alunoDAO = new AlunoDAO();
         String erro = null;
+        Usuario usuarioCriado = null;
 
         try {
             Usuario novoUsuario = new Usuario(nome, sobrenome, email, senha);
@@ -40,25 +40,34 @@ public class CreateAluno extends HttpServlet {
                 throw new SQLException("Falha ao criar o usuário base.");
             }
 
-            Usuario usuarioBanco = usuarioDAO.readByEmail(email);
-            if (usuarioBanco == null) {
+            usuarioCriado = usuarioDAO.readByEmail(email);
+            if (usuarioCriado == null) {
                 throw new SQLException("Erro crítico: Usuário criado, mas ID não encontrado.");
             }
 
-            Aluno novoAluno = new Aluno(cpf, usuarioBanco.getId());
+            Aluno novoAluno = new Aluno(cpf, usuarioCriado.getId());
 
             if (!alunoDAO.create(novoAluno)) {
-                usuarioDAO.deleteById(usuarioBanco.getId());
                 throw new SQLException("Erro ao criar perfil de aluno.");
             }
 
-            response.sendRedirect(request.getContextPath() + "/aluno-read");
+            request.setAttribute("sucesso", "Aluno " + nome + " cadastrado com sucesso!");
+            request.getRequestDispatcher("/adicionar.jsp").forward(request, response);
             return;
 
         } catch (IllegalArgumentException e) {
             erro = "Validação: " + e.getMessage();
         } catch (SQLException e) {
             e.printStackTrace();
+
+            if (usuarioCriado != null) {
+                try {
+                    usuarioDAO.deleteById(usuarioCriado.getId());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
             if (e.getMessage().contains("Duplicate") || e.getMessage().contains("UNIQUE")) {
                 if (e.getMessage().contains("cpf")) {
                     erro = "Este CPF já está cadastrado.";
@@ -74,19 +83,11 @@ public class CreateAluno extends HttpServlet {
         }
 
         request.setAttribute("erro", erro);
-        request.setAttribute("modalAtivo", "create");
         request.setAttribute("nome_previo", nome);
         request.setAttribute("sobrenome_previo", sobrenome);
         request.setAttribute("email_previo", email);
         request.setAttribute("cpf_previo", cpf);
 
-        try {
-            request.setAttribute("listaAlunos", alunoDAO.read());
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("erro", "Erro crítico: Não foi possível carregar a lista de alunos.");
-        }
-
-        request.getRequestDispatcher("/WEB-INF/pages/alunos.jsp").forward(request, response);
+        request.getRequestDispatcher("/adicionar.jsp").forward(request, response);
     }
 }

@@ -55,6 +55,6 @@ public class DeleteAluno extends HttpServlet {
             }
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/alunos.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/alunos.jsp").forward(request, response);
     }
 }

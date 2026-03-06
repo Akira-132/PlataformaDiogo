@@ -4,6 +4,7 @@ import com.example.controllers.Conexao;
 import com.example.models.Turma;
 import com.example.models.Disciplina;
 import com.example.models.Aluno;
+import com.example.models.Usuario;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -182,6 +183,49 @@ public class TurmaDAO {
         return turma;
     }
 
+    public List<Turma> readByDisciplinaId(int idDisciplina) throws SQLException {
+
+        String sql = "SELECT t.id_turma, t.periodo, t.sala, t.id_disciplina, " +
+                "d.id_disciplina AS d_id_disciplina, d.nome, d.id_professor " +
+                "FROM turma t " +
+                "INNER JOIN disciplina d ON t.id_disciplina = d.id_disciplina " +
+                "WHERE t.id_disciplina = ? " +
+                "ORDER BY t.id_turma ASC";
+
+        Conexao conexao = new Conexao();
+        List<Turma> listaTurma = new LinkedList<>();
+
+        try (Connection conn = conexao.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idDisciplina);
+
+            try (ResultSet rset = pstmt.executeQuery()) {
+
+                while (rset.next()) {
+                    Disciplina disciplina = new Disciplina(
+                            rset.getInt("d_id_disciplina"),
+                            rset.getString("nome"),
+                            rset.getInt("id_professor")
+                    );
+                    Turma turma = new Turma(
+                            rset.getInt("id_turma"),
+                            rset.getString("sala"),
+                            rset.getString("periodo"),
+                            rset.getInt("id_disciplina")
+                    );
+
+                    turma.setDisciplina(disciplina);
+                    turma.setAlunos(findAlunosInTurma(conn, turma.getId()));
+
+                    listaTurma.add(turma);
+                }
+            }
+        }
+
+        return listaTurma;
+    }
+
     public int update(Turma turma) throws SQLException {
 
         String sqlUpdate = "UPDATE turma SET periodo = ?, sala = ?, id_disciplina = ? WHERE id_turma = ?";
@@ -277,21 +321,27 @@ public class TurmaDAO {
     }
 
     private List<Aluno> findAlunosInTurma(Connection conn, int turmaId) throws SQLException {
-
-        String sql = "SELECT a.id_aluno, a.cpf, a.matricula, a.id_usuario " +
+        String sql = "SELECT a.id_aluno, a.cpf, a.matricula, a.id_usuario, " +
+                "u.nome, u.sobrenome, u.email, u.senha " +
                 "FROM turma_aluno ta " +
                 "INNER JOIN aluno a ON ta.id_aluno = a.id_aluno " +
+                "INNER JOIN usuario u ON a.id_usuario = u.id_usuario " +
                 "WHERE ta.id_turma = ?";
 
         List<Aluno> lista = new LinkedList<>();
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
             pstmt.setInt(1, turmaId);
 
             try (ResultSet rset = pstmt.executeQuery()) {
-
                 while (rset.next()) {
+                    Usuario usuario = new Usuario(
+                            rset.getInt("id_usuario"),
+                            rset.getString("nome"),
+                            rset.getString("sobrenome"),
+                            rset.getString("email"),
+                            rset.getString("senha")
+                    );
 
                     Aluno aluno = new Aluno(
                             rset.getInt("id_aluno"),
@@ -300,11 +350,12 @@ public class TurmaDAO {
                             rset.getInt("id_usuario")
                     );
 
+                    aluno.setUsuario(usuario);
+
                     lista.add(aluno);
                 }
             }
         }
-
         return lista;
     }
 

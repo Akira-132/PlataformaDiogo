@@ -30,6 +30,7 @@ public class CreateProfessor extends HttpServlet {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         ProfessorDAO professorDAO = new ProfessorDAO();
         String erro = null;
+        Usuario usuarioCriado = null;
 
         try {
             Usuario novoUsuario = new Usuario(nome, sobrenome, email, senha);
@@ -38,25 +39,34 @@ public class CreateProfessor extends HttpServlet {
                 throw new SQLException("Falha ao criar o usuário base.");
             }
 
-            Usuario usuarioBanco = usuarioDAO.readByEmail(email);
-            if (usuarioBanco == null) {
+            usuarioCriado = usuarioDAO.readByEmail(email);
+            if (usuarioCriado == null) {
                 throw new SQLException("Erro crítico: Usuário criado, mas ID não encontrado.");
             }
 
-            Professor novoProfessor = new Professor(usuarioBanco.getId());
+            Professor novoProfessor = new Professor(usuarioCriado.getId());
 
             if (!professorDAO.create(novoProfessor)) {
-                usuarioDAO.deleteById(usuarioBanco.getId());
                 throw new SQLException("Erro ao criar perfil de professor.");
             }
 
-            response.sendRedirect(request.getContextPath() + "/professor-read");
+            request.setAttribute("sucesso", "Professor " + nome + " cadastrado com sucesso!");
+            request.getRequestDispatcher("/adicionar.jsp").forward(request, response);
             return;
 
         } catch (IllegalArgumentException e) {
             erro = "Validação: " + e.getMessage();
         } catch (SQLException e) {
             e.printStackTrace();
+
+            if (usuarioCriado != null) {
+                try {
+                    usuarioDAO.deleteById(usuarioCriado.getId());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
             if (e.getMessage().contains("Duplicate") || e.getMessage().contains("UNIQUE")) {
                 erro = "Este e-mail já está em uso.";
             } else {
@@ -68,18 +78,10 @@ public class CreateProfessor extends HttpServlet {
         }
 
         request.setAttribute("erro", erro);
-        request.setAttribute("modalAtivo", "create");
         request.setAttribute("nome_previo", nome);
         request.setAttribute("sobrenome_previo", sobrenome);
         request.setAttribute("email_previo", email);
 
-        try {
-            request.setAttribute("listaProfessores", professorDAO.read());
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("erro", "Erro crítico: Não foi possível carregar a lista de professores.");
-        }
-
-        request.getRequestDispatcher("/WEB-INF/pages/professores.jsp").forward(request, response);
+        request.getRequestDispatcher("/adicionar.jsp").forward(request, response);
     }
 }

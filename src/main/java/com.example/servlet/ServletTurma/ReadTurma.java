@@ -3,13 +3,18 @@ package com.example.servlet.ServletTurma;
 import java.io.IOException;
 import java.util.List;
 import com.example.models.Turma;
+import com.example.models.Disciplina;
+import com.example.models.Professor;
+import com.example.models.Usuario;
 import com.example.dao.TurmaDAO;
 import com.example.dao.DisciplinaDAO;
+import com.example.dao.ProfessorDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/turma-read")
 public class ReadTurma extends HttpServlet {
@@ -18,43 +23,88 @@ public class ReadTurma extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        TurmaDAO turmaDAO = new TurmaDAO();
-        DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
+        HttpSession session = request.getSession();
+        Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 
-        String acao = request.getParameter("acao");
-        String idStr = request.getParameter("id");
-
-        try {
-            List<Turma> lista = turmaDAO.read();
-            request.setAttribute("listaTurmas", lista);
-
-            if ("prepararCreate".equals(acao) || "prepararUpdate".equals(acao)) {
-                request.setAttribute("listaDisciplinas", disciplinaDAO.read());
-            }
-
-            if ("prepararCreate".equals(acao)) {
-                request.setAttribute("modalAtivo", "create");
-            }
-            else if (idStr != null) {
-                int id = Integer.parseInt(idStr);
-                Turma turma = turmaDAO.readById(id);
-
-                if (turma != null) {
-                    request.setAttribute("turmaModal", turma);
-
-                    if ("prepararUpdate".equals(acao)) {
-                        request.setAttribute("modalAtivo", "update");
-                    } else if ("prepararDelete".equals(acao)) {
-                        request.setAttribute("modalAtivo", "delete");
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("erro", "Erro inesperado ao carregar dados.");
+        if (usuarioLogado == null) {
+            response.sendRedirect("login");
+            return;
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/turmas.jsp").forward(request, response);
+        TurmaDAO turmaDAO = new TurmaDAO();
+        DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
+        ProfessorDAO professorDAO = new ProfessorDAO();
+
+        Professor prof = null;
+        try {
+            prof = professorDAO.readByUsuarioId(usuarioLogado.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (prof != null) {
+            try {
+                List<Disciplina> todasDisciplinas = disciplinaDAO.read();
+                Turma turmaDoProfessor = null;
+
+                for (Disciplina d : todasDisciplinas) {
+                    if (d.getFkProfessorId() == prof.getId()) {
+                        List<Turma> turmas = turmaDAO.readByDisciplinaId(d.getId());
+                        if (turmas != null && !turmas.isEmpty()) {
+                            turmaDoProfessor = turmas.get(0);
+                            break;
+                        }
+                    }
+                }
+
+                if (turmaDoProfessor != null) {
+                    response.sendRedirect(request.getContextPath() + "/turma-aluno-read?id=" + turmaDoProfessor.getId());
+                    return;
+                } else {
+                    request.setAttribute("erro", "Você ainda não possui uma turma vinculada no sistema.");
+                    request.getRequestDispatcher("/WEB-INF/views/turmas-professor.jsp").forward(request, response);
+                    return;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            String acao = request.getParameter("acao");
+            String idStr = request.getParameter("id");
+            String idDisciplinaStr = request.getParameter("idDisciplina");
+
+            try {
+                List<Turma> lista;
+
+                if (idDisciplinaStr != null && !idDisciplinaStr.trim().isEmpty()) {
+                    int idDisciplina = Integer.parseInt(idDisciplinaStr);
+                    lista = turmaDAO.readByDisciplinaId(idDisciplina);
+                } else {
+                    lista = turmaDAO.read();
+                }
+
+                request.setAttribute("listaTurmas", lista);
+                request.setAttribute("listaDisciplinas", disciplinaDAO.read());
+
+                if ("prepararCreate".equals(acao)) {
+                    request.setAttribute("modalAtivo", "create");
+                } else if (idStr != null) {
+                    int id = Integer.parseInt(idStr);
+                    Turma turma = turmaDAO.readById(id);
+                    if (turma != null) {
+                        request.setAttribute("turmaModal", turma);
+                        if ("prepararUpdate".equals(acao)) request.setAttribute("modalAtivo", "update");
+                        else if ("prepararDelete".equals(acao)) request.setAttribute("modalAtivo", "delete");
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("erro", "Erro ao carregar dados.");
+            }
+
+            request.getRequestDispatcher("/WEB-INF/views/turmas-adm.jsp").forward(request, response);
+        }
     }
 }

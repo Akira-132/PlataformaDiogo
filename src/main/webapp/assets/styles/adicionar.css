@@ -79,7 +79,7 @@ form input {
     border: 0.125rem solid #e0e0e0;
     border-radius: 0.9375rem;
     font-size: 1rem;
-    color: #666;
+    color: rgb(102, 102, 102);
     transition: all 0.3s ease;
 }
 

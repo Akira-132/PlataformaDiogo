@@ -90,6 +90,6 @@ public class UpdateProfessor extends HttpServlet {
             }
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/professores.jsp").forward(request, response);
+        request.getRequestDispatcher("/professor-read").forward(request, response);
     }
 }

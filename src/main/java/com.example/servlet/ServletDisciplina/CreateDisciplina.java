@@ -1,9 +1,7 @@
 package com.example.servlet.ServletDisciplina;
 
 import com.example.dao.DisciplinaDAO;
-import com.example.dao.ProfessorDAO;
 import com.example.models.Disciplina;
-import com.example.models.Professor;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -22,19 +20,18 @@ public class CreateDisciplina extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         String nome = request.getParameter("nome");
+
         String idProfessorStr = request.getParameter("fkProfessorId");
 
         DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
-        ProfessorDAO professorDAO = new ProfessorDAO();
         String erro = null;
 
         try {
             int fkProfessorId = Integer.parseInt(idProfessorStr);
-
             Disciplina novaDisciplina = new Disciplina(nome, fkProfessorId);
 
             if (disciplinaDAO.create(novaDisciplina)) {
-                response.sendRedirect(request.getContextPath() + "/disciplina-read");
+                response.sendRedirect(request.getContextPath() + "/turma-read");
                 return;
             } else {
                 erro = "Erro ao cadastrar a disciplina no banco.";
@@ -50,17 +47,6 @@ public class CreateDisciplina extends HttpServlet {
         }
 
         request.setAttribute("erro", erro);
-        request.setAttribute("modalAtivo", "create");
-        request.setAttribute("nome_previo", nome);
-
-        try {
-            request.setAttribute("listaDisciplinas", disciplinaDAO.read());
-            request.setAttribute("listaProfessores", professorDAO.read());
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("erro", "Erro crítico: Não foi possível carregar as listas.");
-        }
-
-        request.getRequestDispatcher("/WEB-INF/pages/disciplinas.jsp").forward(request, response);
+        request.getRequestDispatcher("/turma-read").forward(request, response);
     }
 }

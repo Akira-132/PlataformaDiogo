@@ -82,7 +82,6 @@ public class UpdateAdmin extends HttpServlet {
                 int idAdmin = Integer.parseInt(idAdminStr);
                 request.setAttribute("adminModal", adminDAO.readById(idAdmin));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             if (request.getAttribute("erro") == null) {
@@ -90,6 +89,6 @@ public class UpdateAdmin extends HttpServlet {
             }
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/admins.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin-read").forward(request, response);
     }
 }

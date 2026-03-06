@@ -1,7 +1,5 @@
 package com.example.servlet.ServletNota;
 
-import com.example.dao.AlunoDAO;
-import com.example.dao.DisciplinaDAO;
 import com.example.dao.NotaDAO;
 import com.example.models.Nota;
 import jakarta.servlet.ServletException;
@@ -30,8 +28,6 @@ public class UpdateNota extends HttpServlet {
         String idDisciplinaStr = request.getParameter("fkDisciplinaId");
 
         NotaDAO notaDAO = new NotaDAO();
-        AlunoDAO alunoDAO = new AlunoDAO();
-        DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
         String erro = null;
 
         try {
@@ -69,24 +65,6 @@ public class UpdateNota extends HttpServlet {
         }
 
         request.setAttribute("erro", erro);
-        request.setAttribute("modalAtivo", "update");
-
-        try {
-            request.setAttribute("listaNotas", notaDAO.read());
-            request.setAttribute("listaAlunos", alunoDAO.read());
-            request.setAttribute("listaDisciplinas", disciplinaDAO.read());
-
-            if (idStr != null) {
-                request.setAttribute("notaModal", notaDAO.readById(Integer.parseInt(idStr)));
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (request.getAttribute("erro") == null) {
-                request.setAttribute("erro", "Erro ao recarregar as listas.");
-            }
-        }
-
-        request.getRequestDispatcher("/WEB-INF/pages/notas.jsp").forward(request, response);
+        request.getRequestDispatcher("/nota-read?acao=prepararUpdate&id=" + idStr).forward(request, response);
     }
 }

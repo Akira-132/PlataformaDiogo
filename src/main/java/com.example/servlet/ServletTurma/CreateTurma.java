@@ -62,6 +62,6 @@ public class CreateTurma extends HttpServlet {
             request.setAttribute("erro", "Erro crítico: Não foi possível carregar as listas.");
         }
 
-        request.getRequestDispatcher("/WEB-INF/pages/turmas.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/turmas-adm.jsp").forward(request, response);
     }
 }
